@@ -12,5 +12,14 @@
   "type": "commonjs",
   "dependencies": {
     "@11ty/eleventy": "^3.1.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mythicalok/Uvnpl-SA.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Mythicalok/Uvnpl-SA/issues"
+  },
+  "homepage": "https://github.com/Mythicalok/Uvnpl-SA#readme"
 }
