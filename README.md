@@ -41,7 +41,7 @@ Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 To run the site locally with hot-reload enabled, use the following Eleventy command:
 
 ```bash
-npx @11ty/eleventy --serve
+# npx @11ty/eleventy --serve
 ```
 
 This will run a local development server (typically on `http://localhost:8080`) and watch for any changes you make in the `src` directory.
