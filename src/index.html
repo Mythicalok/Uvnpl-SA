@@ -7,7 +7,7 @@
   <title>UV Netware</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
-    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
     rel="stylesheet">
 
   <style>
@@ -173,9 +173,128 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: flex-start;
       padding: 11rem 4.5rem 7rem;
       overflow: hidden;
+    }
+
+    .hero-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .hero-content {
+      flex: 1;
+      max-width: 650px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-visual {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      animation: fadeUp .6s .8s ease both;
+    }
+
+    .cyber-rings {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      perspective: 1200px;
+      transform-style: preserve-3d;
+      animation: float-rings 8s ease-in-out infinite;
+    }
+
+    @keyframes float-rings {
+
+      0%,
+      100% {
+        transform: translateY(0) rotateX(60deg) rotateZ(0deg);
+      }
+
+      50% {
+        transform: translateY(-30px) rotateX(60deg) rotateZ(15deg);
+      }
+    }
+
+    .ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 2px solid rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.15), inset 0 0 30px rgba(59, 130, 246, 0.15);
+      transform-style: preserve-3d;
+    }
+
+    .ring-1 {
+      width: 360px;
+      height: 360px;
+      border-top-color: var(--blue-light);
+      border-bottom-color: var(--blue-glow);
+      animation: spin-ring 12s linear infinite;
+    }
+
+    .ring-2 {
+      width: 260px;
+      height: 260px;
+      border-left-color: var(--blue-light);
+      border-right-color: var(--blue-glow);
+      animation: spin-ring 8s linear infinite reverse;
+    }
+
+    .ring-3 {
+      width: 160px;
+      height: 160px;
+      border: 3px dashed var(--blue-glow);
+      animation: spin-ring 6s linear infinite;
+    }
+
+    .core-tech {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50px;
+      height: 50px;
+      background: var(--blue-glow);
+      transform: translate(-50%, -50%) rotateX(-60deg);
+      border-radius: 50%;
+      box-shadow: 0 0 60px 20px rgba(96, 165, 250, 0.6);
+      animation: core-beat 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes spin-ring {
+      0% {
+        transform: translate(-50%, -50%) rotateZ(0deg);
+      }
+
+      100% {
+        transform: translate(-50%, -50%) rotateZ(360deg);
+      }
+    }
+
+    @keyframes core-beat {
+      0% {
+        transform: translate(-50%, -50%) rotateX(-60deg) scale(0.8);
+        opacity: 0.7;
+      }
+
+      100% {
+        transform: translate(-50%, -50%) rotateX(-60deg) scale(1.2);
+        opacity: 1;
+      }
     }
 
     .hero::after {
@@ -239,12 +358,12 @@
     }
 
     .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(3rem, 7vw, 6rem);
-      font-weight: 800;
-      line-height: 1.04;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3rem, 6.5vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.1;
       max-width: 760px;
-      letter-spacing: -1.5px;
+      letter-spacing: -2px;
       animation: fadeUp .6s .35s ease both;
     }
 
@@ -258,8 +377,9 @@
     .hero-sub {
       margin-top: 1.8rem;
       max-width: 540px;
-      font-size: 1.05rem;
-      line-height: 1.8;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      line-height: 1.7;
       color: var(--white-dim);
       animation: fadeUp .6s .5s ease both;
     }
@@ -341,6 +461,109 @@
       background: linear-gradient(to right, transparent, var(--border), transparent);
     }
 
+    /* ── SERVICES / PLATFORMS ── */
+    .services {
+      padding: 7rem 4.5rem;
+      background: rgba(7, 10, 15, 0.4);
+    }
+
+    .services-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .services-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+    }
+
+    .services-header p {
+      color: var(--grey-light);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .service-card {
+      background: var(--dark-navy);
+      border: 1px solid var(--border-dim);
+      border-radius: 8px;
+      padding: 2.5rem 2rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue-mid), var(--blue-glow));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover {
+      border-color: var(--border);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(26, 75, 189, 0.15);
+      background: rgba(15, 30, 58, 0.6);
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .s-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue-glow);
+    }
+
+    .s-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .service-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .service-card p {
+      color: var(--grey-light);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
     /* ── ABOUT ── */
     .about {
       padding: 7rem 4.5rem;
@@ -369,7 +592,7 @@
     }
 
     .about h2 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: clamp(1.9rem, 3.8vw, 3rem);
       font-weight: 700;
       line-height: 1.15;
@@ -430,7 +653,7 @@
     }
 
     .video-section h2 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
       font-weight: 700;
       letter-spacing: -.5px;
@@ -520,7 +743,7 @@
     }
 
     .contact h2 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
       font-weight: 700;
       letter-spacing: -.5px;
@@ -731,6 +954,58 @@
         padding: 9rem 1.5rem 5rem;
       }
 
+      .hero-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 4rem;
+      }
+
+      .hero-content {
+        align-items: center;
+        max-width: 100%;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .cyber-rings {
+        width: 300px;
+        height: 300px;
+      }
+
+      .ring-1 {
+        width: 280px;
+        height: 280px;
+      }
+
+      .ring-2 {
+        width: 200px;
+        height: 200px;
+      }
+
+      .ring-3 {
+        width: 120px;
+        height: 120px;
+      }
+
+      .core-tech {
+        width: 40px;
+        height: 40px;
+      }
+
+      .hero::after {
+        display: none;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services {
+        padding: 5rem 1.5rem;
+      }
+
       .about,
       .contact {
         grid-template-columns: 1fr;
@@ -780,76 +1055,179 @@
 
   <!-- ══════════ HERO ══════════ -->
   <section class="hero" id="home">
-    <div class="hero-badge"><span class="dot"></span> Now in Public Beta</div>
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge"><span class="dot"></span> Now in Public Beta</div>
 
-    <h1>
-      Where Bold Ideas<br>
-      Meet <span class="accent">Precision</span><br>
-      Engineering
-    </h1>
+        <h1>
+          Where Bold Ideas<br>
+          Meet <span class="accent">Precision</span><br>
+          Engineering
+        </h1>
 
-    <p class="hero-sub">
-      UV Netware empowers businesses with next-generation technology solutions —
-      blending data intelligence, seamless integrations, and human-centred design
-      to help you scale with confidence.
-    </p>
+        <p class="hero-sub">
+          UV Netware empowers businesses with next-generation technology solutions —
+          blending data intelligence, seamless integrations, and human-centred design
+          to help you scale with confidence.
+        </p>
 
-    <div class="hero-actions">
-      <!-- ✦ Configure this button's href or onclick as needed -->
-      <a href="http://localhost:5173/" class="btn-primary">Get Started</a>
+        <div class="hero-actions">
+          <!-- ✦ Configure this button's href or onclick as needed -->
+          <a href="http://localhost:5173/" class="btn-primary">Get Started</a>
 
-      <a href="#demo" class="btn-outline">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10" />
-          <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none" />
-        </svg>
-        Watch Demo
-      </a>
+          <a href="#demo" class="btn-outline">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none" />
+            </svg>
+            Watch Demo
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="cyber-rings">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <div class="core-tech"></div>
+        </div>
+      </div>
     </div>
   </section>
 
   <div class="divider"></div>
 
 
+  <!-- ══════════ SERVICES / PLATFORMS ══════════ -->
+  <section class="services" id="services">
+    <div class="services-header">
+      <div class="section-label" style="justify-content:center;">Platforms & Services</div>
+      <h2>Technologies We Serve</h2>
+      <p>Delivering future-ready software engineering and full-spectrum digital transformation across platforms.</p>
+    </div>
+
+    <div class="services-grid">
+      <!-- Service 1 -->
+      <div class="service-card">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+        </div>
+        <h3>Full-Stack Website Design & Development</h3>
+        <p>Full-stack web solutions engineered for enterprise resilience, scale, and uncompromising performance.</p>
+      </div>
+
+      <!-- Service 2 -->
+      <div class="service-card">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+          </svg>
+        </div>
+        <h3>IT Infrastructure Engineering for Enterprises</h3>
+        <p>End-to-end infrastructure design and modernization to ensure security, scalability, and operational
+          continuity across your organization.</p>
+      </div>
+
+      <!-- Service 3 -->
+      <div class="service-card">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+        </div>
+        <h3>Search Engine Optimization (SEO) Services</h3>
+        <p>Scalable, secure, and flexible server architectures designed for long-term operational continuity.</p>
+      </div>
+
+      <!-- Service 4 -->
+      <div class="service-card">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+        </div>
+        <h3>API Architecture</h3>
+        <p>Seamless integrations uniting distinct systems through intelligent, structured data orchestration.</p>
+      </div>
+
+      <!-- Service 5 -->
+      <div class="service-card">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+          </svg>
+        </div>
+        <h3>Database Optimization</h3>
+        <p>Structuring, migrating, and tuning data layers to ensure speed, precision, and low latency.</p>
+      </div>
+
+      <!-- Service 6 -->
+      <div class="service-card">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+            </polygon>
+          </svg>
+        </div>
+        <h3>Mobile App Development - Android & iOS</h3>
+        <p>End-to-end app solutions for Android and iOS platforms, ensuring a smooth experience.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
   <!-- ══════════ ABOUT ══════════ -->
   <section class="about" id="about">
     <div>
-      <div class="section-label">Our Story</div>
+      <div class="section-label">Meet UV Netware</div>
       <h2>Built by Engineers,<br>Driven by Purpose</h2>
       <p>
-        UV Netware was founded on a simple belief: powerful technology should be
-        accessible to every organisation, not just the few. From a small team of
-        passionate engineers, we've grown into a global platform trusted across
-        40+ countries.
+        UV Netware is a global provider of premium IT solutions and services,
+        delivering enterprise-grade technologies to clients across 30+ countries
+        since 2021.
       </p>
       <p>
-        Our platform unifies analytics, automation, and collaboration in a single
-        elegant workspace — cutting complexity so your team can focus on what truly
-        matters: building, growing, and delivering value.
+        We specialize in scalable infrastructure, future-ready software engineering,
+        and full-spectrum digital transformation services tailored for startups,
+        agencies, and large enterprises. Every engagement begins with deep client
+        analysis to ensure a perfect alignment of technology with business goals.
       </p>
       <p>
-        We are deeply committed to security, transparency, and customer success.
-        Every feature we ship starts with a real problem our customers face and
-        ends only when they tell us it's solved.
+        By integrating advanced engineering principles with secure, flexible architectures,
+        we ensure long-term scalability, operational continuity, and measurable growth.
+        If you're seeking future-ready IT consulting backed by engineering excellence—UV Netware is your perfect
+        partner.
       </p>
     </div>
 
     <div class="stats">
       <div class="stat-card">
-        <strong>12K+</strong>
-        <span>Active Customers</span>
+        <strong>5+</strong>
+        <span>Years of Experience</span>
       </div>
       <div class="stat-card">
-        <strong>40+</strong>
-        <span>Countries Served</span>
+        <strong>3000+</strong>
+        <span>Projects Delivered</span>
       </div>
       <div class="stat-card">
-        <strong>99.9%</strong>
-        <span>Uptime SLA</span>
+        <strong>30+</strong>
+        <span>Countries covered</span>
       </div>
       <div class="stat-card">
-        <strong>4.9★</strong>
-        <span>Avg. Rating</span>
+        <strong>4500+</strong>
+        <span>Happy Clients</span>
       </div>
     </div>
   </section>
