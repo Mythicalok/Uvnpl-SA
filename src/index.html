@@ -207,10 +207,19 @@
       animation: fadeUp .6s .8s ease both;
     }
 
-    .cyber-rings {
+    .cyber-rings-wrapper {
       position: relative;
       width: 400px;
       height: 400px;
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out;
+    }
+
+    .cyber-rings {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       perspective: 1200px;
       transform-style: preserve-3d;
       animation: float-rings 8s ease-in-out infinite;
@@ -1032,10 +1041,75 @@
         text-align: center;
       }
     }
+
+    /* ── SCROLL REVEAL ANIMATIONS ── */
+    .reveal,
+    .reveal-left,
+    .reveal-right {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      visibility: visible;
+      animation: revealUp 0.8s cubic-bezier(0.5, 0, 0, 1) forwards;
+    }
+
+    .reveal-left.active {
+      opacity: 1;
+      visibility: visible;
+      animation: revealLeft 0.8s cubic-bezier(0.5, 0, 0, 1) forwards;
+    }
+
+    .reveal-right.active {
+      opacity: 1;
+      visibility: visible;
+      animation: revealRight 0.8s cubic-bezier(0.5, 0, 0, 1) forwards;
+    }
+
+    @keyframes revealUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes revealLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes revealRight {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
   </style>
 </head>
 
 <body>
+
+  <!-- GLOBAL PARTICLES BACKGROUND -->
+  <canvas id="global-particles" style="position:fixed; inset:0; z-index:-1; pointer-events:none;"></canvas>
 
   <div class="glow-orb glow-orb-1"></div>
   <div class="glow-orb glow-orb-2"></div>
@@ -1086,11 +1160,13 @@
       </div>
 
       <div class="hero-visual">
-        <div class="cyber-rings">
-          <div class="ring ring-1"></div>
-          <div class="ring ring-2"></div>
-          <div class="ring ring-3"></div>
-          <div class="core-tech"></div>
+        <div class="cyber-rings-wrapper">
+          <div class="cyber-rings">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+            <div class="core-tech"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -1101,7 +1177,7 @@
 
   <!-- ══════════ SERVICES / PLATFORMS ══════════ -->
   <section class="services" id="services">
-    <div class="services-header">
+    <div class="services-header reveal">
       <div class="section-label" style="justify-content:center;">Platforms & Services</div>
       <h2>Technologies We Serve</h2>
       <p>Delivering future-ready software engineering and full-spectrum digital transformation across platforms.</p>
@@ -1109,7 +1185,7 @@
 
     <div class="services-grid">
       <!-- Service 1 -->
-      <div class="service-card">
+      <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
@@ -1122,7 +1198,7 @@
       </div>
 
       <!-- Service 2 -->
-      <div class="service-card">
+      <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
@@ -1135,7 +1211,7 @@
       </div>
 
       <!-- Service 3 -->
-      <div class="service-card">
+      <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
@@ -1146,7 +1222,7 @@
       </div>
 
       <!-- Service 4 -->
-      <div class="service-card">
+      <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"></circle>
@@ -1159,7 +1235,7 @@
       </div>
 
       <!-- Service 5 -->
-      <div class="service-card">
+      <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
@@ -1172,7 +1248,7 @@
       </div>
 
       <!-- Service 6 -->
-      <div class="service-card">
+      <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon
@@ -1190,7 +1266,7 @@
 
   <!-- ══════════ ABOUT ══════════ -->
   <section class="about" id="about">
-    <div>
+    <div class="reveal-left">
       <div class="section-label">Meet UV Netware</div>
       <h2>Built by Engineers,<br>Driven by Purpose</h2>
       <p>
@@ -1212,7 +1288,7 @@
       </p>
     </div>
 
-    <div class="stats">
+    <div class="stats reveal-right">
       <div class="stat-card">
         <strong>5+</strong>
         <span>Years of Experience</span>
@@ -1236,7 +1312,7 @@
 
 
   <!-- ══════════ DEMO VIDEO ══════════ -->
-  <section class="video-section" id="demo">
+  <section class="video-section reveal" id="demo">
     <div class="section-label" style="justify-content:center;">See It In Action</div>
     <h2>A 2-Minute Product Overview</h2>
     <p>Generating a seat layout can be as easy as .....</p>
@@ -1255,7 +1331,7 @@
 
   <!-- ══════════ CONTACT ══════════ -->
   <section class="contact" id="contact">
-    <div>
+    <div class="reveal-left">
       <div class="section-label">Contact Us</div>
       <h2>Let's Start a Conversation</h2>
       <p>
@@ -1306,7 +1382,7 @@
       </div>
     </div>
 
-    <div>
+    <div class="reveal-right">
       <div class="section-label">Send a Message</div>
       <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
         <!-- Web3Forms Access Key -->
@@ -1420,6 +1496,172 @@
     </div>
   </footer>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+        observer.observe(el);
+      });
+
+      // Cyber Rings 3D Hover Effect
+      const heroVisual = document.querySelector('.hero-visual');
+      const ringsWrapper = document.querySelector('.cyber-rings-wrapper');
+      
+      if (heroVisual && ringsWrapper) {
+        heroVisual.addEventListener('mousemove', (e) => {
+          const rect = heroVisual.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          const rotateX = ((y - centerY) / centerY) * -25;
+          const rotateY = ((x - centerX) / centerX) * 35;
+
+          ringsWrapper.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.1, 1.1, 1.1)`;
+        });
+
+        heroVisual.addEventListener('mouseleave', () => {
+          ringsWrapper.style.transform = `rotateX(0deg) rotateY(0deg)`;
+          ringsWrapper.style.transition = 'transform 0.5s ease-out';
+        });
+
+        heroVisual.addEventListener('mouseenter', () => {
+          ringsWrapper.style.transition = 'transform 0.1s ease-out';
+        });
+      }
+
+      // Global Particle Network Effect
+      const canvas = document.getElementById('global-particles');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 250 };
+
+        window.addEventListener('mousemove', (e) => {
+          mouse.x = e.x;
+          mouse.y = e.y;
+        });
+
+        window.addEventListener('mouseout', () => {
+          mouse.x = undefined;
+          mouse.y = undefined;
+        });
+
+        function resize() {
+          width = canvas.width = window.innerWidth;
+          height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+          constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.vx = (Math.random() - 0.5) * 1; // Slightly faster movement
+            this.vy = (Math.random() - 0.5) * 1;
+            this.radius = Math.random() * 2 + 1;
+            this.baseX = this.x;
+            this.baseY = this.y;
+          }
+          update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            
+            // Bounce off edges
+            if (this.x < 0 || this.x > width) this.vx *= -1;
+            if (this.y < 0 || this.y > height) this.vy *= -1;
+
+            // Mouse interaction
+            if (mouse.x != null && mouse.y != null) {
+              let dx = mouse.x - this.x;
+              let dy = mouse.y - this.y;
+              let distance = Math.sqrt(dx * dx + dy * dy);
+              if (distance < mouse.radius) {
+                // Pull particles slightly towards mouse for a "fetching" effect
+                const forceDirectionX = dx / distance;
+                const forceDirectionY = dy / distance;
+                const force = (mouse.radius - distance) / mouse.radius;
+                const pushX = forceDirectionX * force * 2;
+                const pushY = forceDirectionY * force * 2;
+                this.x += pushX;
+                this.y += pushY;
+              }
+            }
+          }
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(59, 130, 246, 0.4)';
+            ctx.fill();
+          }
+        }
+
+        // Create particles based on screen size
+        const particleCount = Math.min((width * height) / 15000, 150); 
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+
+        function animateParticles() {
+          ctx.clearRect(0, 0, width, height);
+          particles.forEach(p => p.update());
+          
+          for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+              let dx = particles[i].x - particles[j].x;
+              let dy = particles[i].y - particles[j].y;
+              let distance = Math.sqrt(dx * dx + dy * dy);
+              
+              if (distance < 180) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                // Line opacity fades as distance increases
+                ctx.strokeStyle = `rgba(59, 130, 246, ${0.4 - distance / 180})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              }
+            }
+            // Draw lines to mouse if close enough
+            if (mouse.x != null && mouse.y != null) {
+              let dxMouse = particles[i].x - mouse.x;
+              let dyMouse = particles[i].y - mouse.y;
+              let distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+              if (distMouse < mouse.radius) {
+                 ctx.beginPath();
+                 ctx.moveTo(particles[i].x, particles[i].y);
+                 ctx.lineTo(mouse.x, mouse.y);
+                 ctx.strokeStyle = `rgba(96, 165, 250, ${0.6 - distMouse / mouse.radius})`; // Brighter lines near cursor
+                 ctx.lineWidth = 1.5;
+                 ctx.stroke();
+              }
+            }
+            particles[i].draw();
+          }
+          requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+      }
+    });
+  </script>
 </body>
 
 </html>
