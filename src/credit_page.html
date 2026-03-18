@@ -5,9 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Credits — The Team</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet" />
   <style>
     *,
     *::before,
@@ -18,16 +16,18 @@
     }
 
     :root {
-      --bg: #0a0a0f;
-      --surface: #111118;
-      --card: #16161f;
-      --border: rgba(255, 255, 255, 0.07);
-      --gold: #c9a84c;
-      --gold-light: #e8c97a;
-      --text: #e8e8f0;
-      --muted: #7a7a90;
-      --github: #e8e8f0;
-      --linkedin: #0a66c2;
+      --bg: #000000;
+      --surface: #000021;
+      --card: #000021;
+      --border: #000055;
+      --gold: #0000EE;
+      --gold-light: #0000EE;
+      --text: #FFFFFF;
+      --muted: #757575;
+      --github: #FFFFFF;
+      --linkedin: #FFFFFF;
+      --success: #00BFA5;
+      --error: #D50000;
     }
 
     html {
@@ -37,7 +37,7 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-weight: 300;
       min-height: 100vh;
       overflow-x: hidden;
@@ -83,6 +83,18 @@
       }
     }
 
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .hero-label,
+    .card-name {
+      letter-spacing: -0.75px !important;
+    }
+
     /* ── Hero ── */
     .hero {
       position: relative;
@@ -98,17 +110,17 @@
       font-weight: 500;
       text-transform: uppercase;
       color: var(--gold);
-      border: 1px solid rgba(201, 168, 76, 0.3);
+      border: 1.75px solid rgba(201, 168, 76, 0.3);
       padding: 6px 18px;
       border-radius: 40px;
       margin-bottom: 32px;
     }
 
     .hero h1 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Roboto', sans-serif;
       font-size: clamp(52px, 8vw, 96px);
-      font-weight: 900;
-      line-height: 0.95;
+      font-weight: 500;
+      line-height: normal;
       letter-spacing: -0.02em;
       background: linear-gradient(135deg, #fff 30%, var(--gold-light) 100%);
       -webkit-background-clip: text;
@@ -122,7 +134,7 @@
       font-size: 16px;
       max-width: 480px;
       margin: 0 auto;
-      line-height: 1.7;
+      line-height: normal;
     }
 
     /* ── Divider ── */
@@ -165,7 +177,7 @@
     /* ── Card ── */
     .card {
       background: var(--card);
-      border: 1px solid var(--border);
+      border: 1.75px solid var(--border);
       border-radius: 20px;
       padding: 36px 28px 28px;
       display: flex;
@@ -180,7 +192,7 @@
     .card:hover {
       transform: translateY(-8px);
       border-color: rgba(201, 168, 76, 0.25);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201, 168, 76, 0.08);
+
     }
 
     @keyframes fadeUp {
@@ -318,7 +330,7 @@
       background: var(--gold);
       color: #0a0a0f;
       font-size: 10px;
-      font-weight: 700;
+      font-weight: 500;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -326,9 +338,9 @@
     }
 
     .card-name {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 500;
       margin-bottom: 4px;
       color: var(--text);
     }
@@ -345,7 +357,7 @@
     .card-bio {
       font-size: 13px;
       color: var(--muted);
-      line-height: 1.65;
+      line-height: normal;
       margin-bottom: 22px;
       flex: 1;
     }
@@ -362,29 +374,26 @@
       align-items: center;
       gap: 7px;
       padding: 8px 16px;
-      border-radius: 40px;
+      border-radius: 145px;
       font-size: 12px;
       font-weight: 500;
       text-decoration: none;
-      transition: transform 0.2s, opacity 0.2s;
-      border: 1px solid var(--border);
+      transition: background 0.2s, color 0.2s;
+      border: 2px solid #FFFFFF;
+      background: transparent !important;
+      color: #FFFFFF !important;
     }
 
     .link-btn:hover {
-      transform: scale(1.05);
-      opacity: 0.85;
+      background: #FFFFFF !important;
+      color: #000000 !important;
+      transform: none !important;
+      opacity: 1;
     }
 
-    .link-btn.github {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--github);
-    }
 
-    .link-btn.linkedin {
-      background: rgba(10, 102, 194, 0.15);
-      color: #5ba4f5;
-      border-color: rgba(10, 102, 194, 0.25);
-    }
+
+
 
     .link-btn svg {
       flex-shrink: 0;
@@ -396,7 +405,7 @@
       z-index: 1;
       text-align: center;
       padding: 40px 24px 60px;
-      border-top: 1px solid var(--border);
+      border-top: 1.75px solid var(--border);
       color: var(--muted);
       font-size: 13px;
       letter-spacing: 0.04em;
@@ -425,19 +434,19 @@
 
   <!-- Hero -->
   <section class="hero">
-    <div class="hero-label">✦ Project Credits</div>
+    <div class="hero-label"> Project Credits</div>
     <h1>Meet the<br />Team</h1>
     <p>The brilliant minds behind this project — designers, developers, and visionaries who made it happen.</p>
   </section>
 
-  <div class="divider"><span class="divider-icon">◆</span></div>
+  <div class="divider"><span class="divider-icon"></span></div>
 
   <!-- Cards Grid -->
   <div class="grid" id="team-grid"></div>
 
   <!-- Footer -->
   <footer>
-    Built with ❤️ by <span>UV Netware Solutions</span> &nbsp;·&nbsp; © 2025 All rights reserved
+    Built by <span>UV Netware Solutions</span> &nbsp;·&nbsp; © 2025 All rights reserved
   </footer>
 
   <script>

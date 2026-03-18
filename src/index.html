@@ -6,27 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UV Netware</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --black: #070a0f;
-      --dark-navy: #0b1120;
-      --navy: #0f1e3a;
-      --blue: #1a4bbd;
-      --blue-mid: #2563eb;
-      --blue-light: #3b82f6;
-      --blue-glow: #60a5fa;
-      --grey-dark: #1e2533;
-      --grey-mid: #374151;
-      --grey: #6b7280;
-      --grey-light: #9ca3af;
-      --white: #f8fafc;
-      --white-dim: rgba(248, 250, 252, .65);
-      --border: rgba(59, 130, 246, .18);
-      --border-dim: rgba(59, 130, 246, .08);
+        :root {
+      --black: #000000;
+      --dark-navy: #000021;
+      --navy: #000021;
+      --blue: #0000EE;
+      --blue-mid: #0000EE;
+      --blue-light: #0000EE;
+      --blue-glow: #0000EE;
+      --grey-dark: #000021;
+      --grey-mid: #757575;
+      --grey: #757575;
+      --grey-light: #EEEEEE;
+      --white: #FFFFFF;
+      --white-dim: #EEEEEE;
+      --border: #000055;
+      --border-dim: #000055;
+      --success: #00BFA5;
+      --error: #D50000;
     }
 
     *,
@@ -44,9 +44,14 @@
     body {
       background: var(--black);
       color: var(--white);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-weight: 300;
       overflow-x: hidden;
+    }
+
+    
+    h1, h2, h3, h4, h5, h6, .logo {
+      letter-spacing: -0.75px !important;
     }
 
     /* ── GRID BACKGROUND ── */
@@ -105,7 +110,7 @@
       justify-content: space-between;
       padding: 1.3rem 4.5rem;
       background: rgba(7, 10, 15, .8);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1.75px solid var(--border);
       backdrop-filter: blur(20px);
       animation: slideDown .6s ease both;
     }
@@ -123,8 +128,8 @@
     }
 
     .logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
       font-size: 1.5rem;
       letter-spacing: -.3px;
       color: var(--white);
@@ -160,7 +165,7 @@
       padding: 0.35rem 0.8rem;
       border-radius: 100px;
       background: rgba(34, 197, 94, 0.1);
-      border: 1px solid rgba(34, 197, 94, 0.2);
+      border: 1.75px solid rgba(34, 197, 94, 0.2);
       color: #22c55e !important;
       text-transform: uppercase;
       font-size: 0.72rem;
@@ -178,36 +183,37 @@
       height: 6px;
       border-radius: 50%;
       background: #22c55e;
-      box-shadow: 0 0 8px #22c55e;
+
       animation: statusPulse 2s infinite;
     }
 
     @keyframes statusPulse {
       0% {
-        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+
       }
 
       70% {
-        box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+
       }
 
       100% {
-        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+
       }
     }
 
     .nav-cta {
-      background: var(--blue-mid);
-      color: var(--white) !important;
+      background: transparent !important;
+      color: #FFFFFF !important;
       padding: .5rem 1.4rem;
-      border-radius: 3px;
+      border: 2px solid #FFFFFF;
+      border-radius: 145px;
       font-weight: 500;
-      transition: background .2s, box-shadow .2s !important;
+      transition: background 0.2s, color 0.2s !important;
     }
 
     .nav-cta:hover {
-      background: var(--blue-light) !important;
-      box-shadow: 0 0 20px rgba(59, 130, 246, .4);
+      background: #FFFFFF !important;
+      color: #000000 !important;
     }
 
     /* ── HERO ── */
@@ -287,7 +293,7 @@
       transform: translate(-50%, -50%);
       border-radius: 50%;
       border: 2px solid rgba(59, 130, 246, 0.2);
-      box-shadow: 0 0 30px rgba(59, 130, 246, 0.15), inset 0 0 30px rgba(59, 130, 246, 0.15);
+
       transform-style: preserve-3d;
     }
 
@@ -323,7 +329,7 @@
       background: var(--blue-glow);
       transform: translate(-50%, -50%) rotateX(-60deg);
       border-radius: 50%;
-      box-shadow: 0 0 60px 20px rgba(96, 165, 250, 0.6);
+
       animation: core-beat 2s ease-in-out infinite alternate;
     }
 
@@ -378,7 +384,7 @@
       align-items: center;
       gap: .6rem;
       background: rgba(59, 130, 246, .1);
-      border: 1px solid var(--border);
+      border: 1.75px solid var(--border);
       border-radius: 100px;
       padding: .35rem 1rem;
       font-size: .78rem;
@@ -410,10 +416,10 @@
     }
 
     .hero h1 {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: clamp(3rem, 6.5vw, 5.5rem);
-      font-weight: 700;
-      line-height: 1.1;
+      font-weight: 500;
+      line-height: normal;
       max-width: 760px;
       letter-spacing: -2px;
       animation: fadeUp .6s .35s ease both;
@@ -431,9 +437,9 @@
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 1.15rem;
-      line-height: 1.7;
+      line-height: normal;
       color: var(--white-dim);
       animation: fadeUp .6s .5s ease both;
     }
@@ -450,24 +456,23 @@
 
     .btn-primary {
       display: inline-block;
-      background: var(--blue-mid);
-      color: var(--white);
-      font-family: 'Inter', sans-serif;
+      background: transparent;
+      color: #FFFFFF;
+      font-family: 'Roboto', sans-serif;
       font-weight: 500;
       font-size: .9rem;
       letter-spacing: .05em;
       padding: .85rem 2.2rem;
-      border: none;
-      border-radius: 3px;
+      border: 2px solid #FFFFFF;
+      border-radius: 145px;
       cursor: pointer;
       text-decoration: none;
-      transition: background .2s, transform .2s, box-shadow .2s;
+      transition: background 0.2s, color 0.2s;
     }
 
     .btn-primary:hover {
-      background: var(--blue-light);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(59, 130, 246, .4);
+      background: #FFFFFF;
+      color: #000000;
     }
 
     .btn-outline {
@@ -475,21 +480,21 @@
       align-items: center;
       gap: .55rem;
       background: transparent;
-      border: 1px solid var(--grey-mid);
-      color: var(--grey-light);
-      font-family: 'Inter', sans-serif;
-      font-weight: 400;
+      border: 2px solid #FFFFFF;
+      color: #FFFFFF;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
       font-size: .9rem;
       padding: .85rem 2rem;
-      border-radius: 3px;
+      border-radius: 145px;
       cursor: pointer;
       text-decoration: none;
-      transition: border-color .2s, color .2s;
+      transition: background 0.2s, color 0.2s;
     }
 
     .btn-outline:hover {
-      border-color: var(--blue-light);
-      color: var(--white);
+      background: #FFFFFF;
+      color: #000000;
     }
 
     .btn-outline svg {
@@ -528,9 +533,9 @@
     }
 
     .services-header h2 {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 700;
+      font-weight: 500;
       letter-spacing: -1px;
       margin-bottom: 1rem;
     }
@@ -540,7 +545,7 @@
       max-width: 600px;
       margin: 0 auto;
       font-size: 1.05rem;
-      line-height: 1.6;
+      line-height: normal;
     }
 
     .services-grid {
@@ -553,7 +558,7 @@
 
     .service-card {
       background: var(--dark-navy);
-      border: 1px solid var(--border-dim);
+      border: 1.75px solid var(--border-dim);
       border-radius: 8px;
       padding: 2.5rem 2rem;
       transition: all 0.3s ease;
@@ -580,7 +585,7 @@
     .service-card:hover {
       border-color: var(--border);
       transform: translateY(-5px);
-      box-shadow: 0 10px 40px rgba(26, 75, 189, 0.15);
+
       background: rgba(15, 30, 58, 0.6);
     }
 
@@ -593,7 +598,7 @@
       height: 54px;
       border-radius: 12px;
       background: rgba(37, 99, 235, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.2);
+      border: 1.75px solid rgba(59, 130, 246, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -606,9 +611,9 @@
     }
 
     .service-card h3 {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 1.3rem;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--white);
       letter-spacing: -0.5px;
     }
@@ -616,7 +621,7 @@
     .service-card p {
       color: var(--grey-light);
       font-size: 0.95rem;
-      line-height: 1.6;
+      line-height: normal;
     }
 
     /* ── ABOUT ── */
@@ -647,17 +652,17 @@
     }
 
     .about h2 {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: clamp(1.9rem, 3.8vw, 3rem);
-      font-weight: 700;
-      line-height: 1.15;
+      font-weight: 500;
+      line-height: normal;
       letter-spacing: -.5px;
       margin-bottom: 1.6rem;
     }
 
     .about p {
       font-size: .97rem;
-      line-height: 1.85;
+      line-height: normal;
       color: var(--white-dim);
       margin-bottom: 1.2rem;
     }
@@ -671,7 +676,7 @@
 
     .stat-card {
       background: var(--grey-dark);
-      border: 1px solid var(--border-dim);
+      border: 1.75px solid var(--border-dim);
       border-radius: 6px;
       padding: 1.6rem 1.4rem;
       transition: border-color .2s, transform .2s;
@@ -684,9 +689,9 @@
 
     .stat-card strong {
       display: block;
-      font-family: 'Syne', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 2.4rem;
-      font-weight: 700;
+      font-weight: 500;
       background: linear-gradient(135deg, var(--blue-light), var(--blue-glow));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -708,9 +713,9 @@
     }
 
     .video-section h2 {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 700;
+      font-weight: 500;
       letter-spacing: -.5px;
       margin-bottom: .7rem;
     }
@@ -727,11 +732,11 @@
       max-width: 880px;
       margin: 0 auto;
       aspect-ratio: 16/9;
-      border: 1px solid var(--border);
+      border: 1.75px solid var(--border);
       border-radius: 8px;
       overflow: hidden;
       background: var(--dark-navy);
-      box-shadow: 0 0 80px rgba(37, 99, 235, .12);
+
     }
 
     .video-wrapper iframe {
@@ -771,7 +776,7 @@
     .play-btn:hover {
       background: rgba(59, 130, 246, .15);
       transform: scale(1.08);
-      box-shadow: 0 0 30px rgba(59, 130, 246, .3);
+
     }
 
     .play-btn svg {
@@ -794,20 +799,20 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 5rem;
-      border-top: 1px solid var(--border-dim);
+      border-top: 1.75px solid var(--border-dim);
     }
 
     .contact h2 {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 700;
+      font-weight: 500;
       letter-spacing: -.5px;
       margin-bottom: 1rem;
     }
 
     .contact>div:first-child>p {
       color: var(--white-dim);
-      line-height: 1.8;
+      line-height: normal;
       font-size: .95rem;
       margin-bottom: 2.2rem;
     }
@@ -824,7 +829,7 @@
       height: 40px;
       flex-shrink: 0;
       background: var(--grey-dark);
-      border: 1px solid var(--border-dim);
+      border: 1.75px solid var(--border-dim);
       border-radius: 6px;
       display: flex;
       align-items: center;
@@ -848,7 +853,7 @@
     .contact-detail p {
       font-size: .95rem;
       color: var(--white);
-      font-weight: 400;
+      font-weight: 500;
     }
 
     .contact-form {
@@ -873,11 +878,11 @@
     .form-group input,
     .form-group textarea {
       background: var(--grey-dark);
-      border: 1px solid rgba(55, 65, 81, .8);
+      border: 1.75px solid rgba(55, 65, 81, .8);
       border-radius: 4px;
       padding: .78rem 1rem;
       color: var(--white);
-      font-family: 'Inter', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: .93rem;
       font-weight: 300;
       outline: none;
@@ -893,7 +898,7 @@
     .form-group input:focus,
     .form-group textarea:focus {
       border-color: var(--blue-mid);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+
     }
 
     .form-row {
@@ -905,7 +910,7 @@
     /* ── FOOTER ── */
     footer {
       background: var(--dark-navy);
-      border-top: 1px solid var(--border);
+      border-top: 1.75px solid var(--border);
       padding: 4rem 4.5rem 2rem;
     }
 
@@ -914,7 +919,7 @@
       grid-template-columns: 2fr 1fr 1fr 1fr;
       gap: 3rem;
       padding-bottom: 3rem;
-      border-bottom: 1px solid var(--border-dim);
+      border-bottom: 1.75px solid var(--border-dim);
     }
 
     .footer-brand .logo {
@@ -925,7 +930,7 @@
 
     .footer-brand p {
       font-size: .87rem;
-      line-height: 1.8;
+      line-height: normal;
       color: var(--grey);
       max-width: 260px;
     }
@@ -977,7 +982,7 @@
       width: 34px;
       height: 34px;
       background: var(--grey-dark);
-      border: 1px solid var(--border-dim);
+      border: 1.75px solid var(--border-dim);
       border-radius: 4px;
       display: flex;
       align-items: center;
@@ -985,7 +990,7 @@
       color: var(--grey);
       text-decoration: none;
       font-size: .75rem;
-      font-weight: 700;
+      font-weight: 500;
       transition: border-color .2s, color .2s, background .2s;
     }
 
@@ -1496,11 +1501,7 @@
           <li><a href="#">Terms of Service</a></li>
           <li><a href="#">Security</a></li>
           <li><a href="#">Cookie Policy</a></li>
-<<<<<<< HEAD
           <li><a href="/credit_page/">Credits</a></li>
-=======
-          <li><a href="credits.html">Credits</a></li>
->>>>>>> e2829a8 (Finalize changes)
         </ul>
       </div>
     </div>
