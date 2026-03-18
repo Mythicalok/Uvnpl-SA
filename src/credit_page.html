@@ -20,10 +20,10 @@
     :root {
       --bg: #0a0a0f;
       --surface: #111118;
-      --card: #16161f;
+       --card: #0f1e3a;
       --border: rgba(255, 255, 255, 0.07);
-      --gold: #c9a84c;
-      --gold-light: #e8c97a;
+      --gold: #3b82f6;
+      --gold-light: #60a5fa;
       --text: #e8e8f0;
       --muted: #7a7a90;
       --github: #e8e8f0;
@@ -305,6 +305,13 @@
       z-index: 1;
       background: var(--surface);
     }
+    .avatar {
+  transition: transform 0.3s;
+    }
+
+  .card:hover .avatar {
+  transform: scale(1.1);
+  }
 
     /* Number badge */
     .badge {
@@ -436,9 +443,10 @@
   <div class="grid" id="team-grid"></div>
 
   <!-- Footer -->
-  <footer>
-    Built with ❤️ by <span>UV Netware Solutions</span> &nbsp;·&nbsp; © 2025 All rights reserved
-  </footer>
+ <footer>
+  <p>Built with ❤️ by <span>UV Netware Solutions</span></p>
+  <p>© 2025 All rights reserved</p>
+</footer>
 
   <script>
     const members = [
