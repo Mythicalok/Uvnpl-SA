@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UV Netware</title>
+  <link rel="icon" href="/assets/images/icon.jpg" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
 
@@ -214,6 +215,22 @@
     .nav-cta:hover {
       background: #FFFFFF !important;
       color: #000000 !important;
+    }
+
+    .nav-login {
+      background: var(--blue-mid) !important;
+      color: #FFFFFF !important;
+      padding: .5rem 1.4rem;
+      border: 2px solid var(--blue-mid);
+      border-radius: 145px;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s, border-color 0.2s !important;
+    }
+
+    .nav-login:hover {
+      background: transparent !important;
+      border-color: #FFFFFF;
+      color: #FFFFFF !important;
     }
 
     /* ── HERO ── */
@@ -1253,6 +1270,7 @@
       <a href="#about">About</a>
       <a href="#demo">Product</a>
       <a href="https://uvnetware.com/contact/">Contact</a>
+      <a href="/login" class="nav-login">Login / Signup</a>
       <a href="http://localhost:5173/" class="nav-cta">Get Started</a>
     </nav>
   </header>
