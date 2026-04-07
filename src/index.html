@@ -43,10 +43,10 @@
     }
 
     body {
-      background: var(--black);
+      background: linear-gradient(135deg, var(--black) 0%, var(--dark-navy) 100%);
       color: var(--white);
       font-family: 'Roboto', sans-serif;
-      font-weight: 300;
+      font-weight: 400;
       overflow-x: hidden;
     }
 
@@ -59,19 +59,6 @@
     h6,
     .logo {
       letter-spacing: -0.75px !important;
-    }
-
-    /* ── GRID BACKGROUND ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(59, 130, 246, .04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59, 130, 246, .04) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-      z-index: 0;
     }
 
     .glow-orb {
@@ -304,7 +291,7 @@
     .hero h1 {
       font-family: 'Roboto', sans-serif;
       font-size: clamp(3rem, 6.5vw, 5.5rem);
-      font-weight: 500;
+      font-weight: 700;
       line-height: normal;
       max-width: 760px;
       letter-spacing: -2px;
@@ -325,8 +312,9 @@
       margin-right: auto;
       font-family: 'Roboto', sans-serif;
       font-size: 1.15rem;
+      font-weight: 500;
       line-height: normal;
-      color: var(--white-dim);
+      color: var(--white);
       animation: fadeUp .6s .5s ease both;
     }
 
@@ -421,7 +409,7 @@
     .services-header h2 {
       font-family: 'Roboto', sans-serif;
       font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 500;
+      font-weight: 700;
       letter-spacing: -1px;
       margin-bottom: 1rem;
     }
@@ -431,6 +419,7 @@
       max-width: 600px;
       margin: 0 auto;
       font-size: 1.05rem;
+      font-weight: 500;
       line-height: normal;
     }
 
@@ -499,7 +488,7 @@
     .service-card h3 {
       font-family: 'Roboto', sans-serif;
       font-size: 1.3rem;
-      font-weight: 500;
+      font-weight: 700;
       color: var(--white);
       letter-spacing: -0.5px;
     }
@@ -507,6 +496,7 @@
     .service-card p {
       color: var(--grey-light);
       font-size: 0.95rem;
+      font-weight: 500;
       line-height: normal;
     }
 
@@ -540,7 +530,7 @@
     .about h2 {
       font-family: 'Roboto', sans-serif;
       font-size: clamp(1.9rem, 3.8vw, 3rem);
-      font-weight: 500;
+      font-weight: 700;
       line-height: normal;
       letter-spacing: -.5px;
       margin-bottom: 1.6rem;
@@ -548,8 +538,9 @@
 
     .about p {
       font-size: .97rem;
+      font-weight: 500;
       line-height: normal;
-      color: var(--white-dim);
+      color: var(--white);
       margin-bottom: 1.2rem;
     }
 
@@ -601,14 +592,15 @@
     .video-section h2 {
       font-family: 'Roboto', sans-serif;
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 500;
+      font-weight: 700;
       letter-spacing: -.5px;
       margin-bottom: .7rem;
     }
 
     .video-section>p {
-      color: var(--grey);
+      color: var(--grey-light);
       font-size: .95rem;
+      font-weight: 500;
       margin-bottom: 3rem;
     }
 
@@ -617,12 +609,12 @@
       width: 100%;
       max-width: 880px;
       margin: 0 auto;
+      padding: 0;
       aspect-ratio: 16/9;
       border: 1.75px solid var(--border);
       border-radius: 8px;
       overflow: hidden;
       background: var(--dark-navy);
-
     }
 
     .video-wrapper iframe {
@@ -691,15 +683,16 @@
     .contact h2 {
       font-family: 'Roboto', sans-serif;
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 500;
+      font-weight: 700;
       letter-spacing: -.5px;
       margin-bottom: 1rem;
     }
 
     .contact>div:first-child>p {
-      color: var(--white-dim);
+      color: var(--white);
       line-height: normal;
       font-size: .95rem;
+      font-weight: 500;
       margin-bottom: 2.2rem;
     }
 
@@ -739,7 +732,7 @@
     .contact-detail p {
       font-size: .95rem;
       color: var(--white);
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .contact-form {
@@ -887,9 +880,37 @@
     }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
+    @media (max-width: 1024px) {
       header {
-        padding: 1.2rem 1.5rem;
+        padding: 1rem 2rem;
+      }
+
+      .hero {
+        padding: 8rem 2rem 5rem;
+      }
+
+      .services {
+        padding: 6rem 2rem;
+      }
+
+      .video-section {
+        padding: 4rem 2rem 5rem;
+      }
+
+      .about,
+      .contact {
+        padding: 4rem 2rem;
+        gap: 3rem;
+      }
+
+      footer {
+        padding: 3rem 2rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 1rem 1.5rem;
       }
 
       nav {
@@ -897,13 +918,13 @@
       }
 
       .hero {
-        padding: 9rem 1.5rem 5rem;
+        padding: 7rem 1.5rem 4rem;
       }
 
       .hero-container {
         flex-direction: column;
         text-align: center;
-        gap: 4rem;
+        gap: 3rem;
       }
 
       .hero-content {
@@ -915,10 +936,9 @@
         justify-content: center;
       }
 
-
-
       .services-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
       }
 
       .services {
@@ -929,26 +949,103 @@
       .contact {
         grid-template-columns: 1fr;
         gap: 2.5rem;
-        padding: 4rem 1.5rem;
+        padding: 3rem 1.5rem;
       }
 
       .video-section {
-        padding: 4rem 1.5rem 5rem;
+        padding: 3rem 1.5rem 5rem;
+      }
+
+      .video-wrapper {
+        padding: 1rem;
       }
 
       .footer-top {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 2rem;
       }
 
       footer {
-        padding: 3rem 1.5rem 1.5rem;
+        padding: 2.5rem 1.5rem 1.5rem;
       }
 
       .footer-bottom {
         flex-direction: column;
         gap: 1rem;
         text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+
+      .logo {
+        font-size: 1rem;
+      }
+
+      .hero {
+        padding: 6rem 1rem 3rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(1.8rem, 5vw, 3rem);
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .services-header h2 {
+        font-size: clamp(1.5rem, 3vw, 2rem);
+      }
+
+      .services {
+        padding: 3rem 1rem;
+      }
+
+      .about,
+      .contact {
+        padding: 2.5rem 1rem;
+        gap: 2rem;
+      }
+
+      .about h2,
+      .contact h2 {
+        font-size: clamp(1.4rem, 3vw, 2rem);
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .video-section {
+        padding: 2.5rem 1rem 3.5rem;
+      }
+
+      .video-section h2 {
+        font-size: clamp(1.4rem, 3vw, 2rem);
+      }
+
+      .video-wrapper {
+        padding: 0.8rem;
+      }
+
+      footer {
+        padding: 2rem 1rem 1rem;
+      }
+
+      .footer-top {
+        gap: 1.5rem;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        font-size: 0.75rem;
       }
     }
 
@@ -1259,18 +1356,15 @@
       onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
       <img src="/assets/images/icon.jpg" alt="UV Netware Logo" style="height: 30px; width: auto; border-radius: 4px;">
       <div style="display:flex; flex-direction:column; line-height:1;">
-        <span style="font-size:1rem; font-weight:60;color:#ffffff;">UV</span>
-        <span style="font-size:1rem; font-weight:40; letter-spacing:0.05em;">Netware</span>
+        <span style="font-size:1rem; font-weight:700;">UV</span>
+        <span style="font-size:1rem; font-weight:500;color:#ffffff;letter-spacing:0.05em;">Netware</span>
       </div>
     </div>
     <nav>
-      <a href="https://uvnetware.statuspage.io/" class="system-status">
-        <span class="status-indicator-dot"></span> All Systems Operational
       </a>
       <a href="#about">About</a>
       <a href="#demo">Product</a>
       <a href="https://uvnetware.com/contact/">Contact</a>
-      <a href="/login" class="nav-login">Login / Signup</a>
       <a href="http://localhost:5173/" class="nav-cta">Get Started</a>
     </nav>
   </header>
@@ -1280,7 +1374,6 @@
   <section class="hero" id="home">
     <div class="hero-container">
       <div class="hero-content">
-        <div class="hero-badge"><span class="dot"></span> Now in Public Beta</div>
 
         <h1>
           Design Every Seat,<br>
