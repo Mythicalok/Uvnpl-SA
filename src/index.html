@@ -7,21 +7,31 @@
   <title>UV Netware</title>
   <link rel="icon" href="/assets/images/icon.jpg" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
   <style>
     :root {
       --black: #000000;
-      --dark-navy: #000021;
-      --blue-mid: #0000EE;
-      --blue-light: #0000EE;
-      --blue-glow: #0000EE;
-      --grey-dark: #000021;
-      --grey: #757575;
-      --grey-light: #EEEEEE;
+      --dark-bg: #0A0A0F;
+      --dark-surface: #111118;
+      --dark-card: #15151E;
+      --cyan: #00F0FF;
+      --cyan-dim: rgba(0, 240, 255, 0.15);
+      --electric: #0066FF;
+      --accent-gradient: linear-gradient(135deg, #00F0FF 0%, #0066FF 50%, #7B2FFF 100%);
+      --grey-dark: #1A1A24;
+      --grey: #6B7280;
+      --grey-light: #D1D5DB;
+      --grey-muted: #9CA3AF;
       --white: #FFFFFF;
-      --border: #000055;
-      --border-dim: #000055;
+      --border: rgba(0, 240, 255, 0.2);
+      --border-dim: rgba(255, 255, 255, 0.06);
+      --border-hover: rgba(0, 240, 255, 0.45);
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
     }
 
     *,
@@ -37,12 +47,14 @@
     }
 
     body {
-      background: linear-gradient(135deg, var(--black) 0%, var(--dark-navy) 100%);
+      background: var(--dark-bg);
       color: var(--white);
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-body);
       font-weight: 400;
       overflow-x: hidden;
     }
+
+
 
 
     h1,
@@ -52,6 +64,7 @@
     h5,
     h6,
     .logo {
+      font-family: var(--font-display);
       letter-spacing: -0.75px !important;
     }
 
@@ -75,7 +88,6 @@
       pointer-events: none;
     }
 
-    /* ── HEADER ── */
     header {
       position: fixed;
       top: 0;
@@ -86,9 +98,9 @@
       align-items: center;
       justify-content: space-between;
       padding: 1.3rem 4.5rem;
-      background: rgba(7, 10, 15, .8);
-      border-bottom: 1.75px solid var(--border);
-      backdrop-filter: blur(20px);
+      background: rgba(10, 10, 15, 0.85);
+      border-bottom: 1px solid var(--border-dim);
+      backdrop-filter: blur(24px) saturate(1.2);
       animation: slideDown .6s ease both;
     }
 
@@ -105,14 +117,13 @@
     }
 
     .logo {
-      font-family: 'Roboto', sans-serif;
-      font-weight: 500;
+      font-family: var(--font-display);
+      font-weight: 600;
       font-size: 1.5rem;
       letter-spacing: -.3px;
       color: var(--white);
     }
 
-    /* ── NAV (SpaceX style) ── */
     nav {
       display: flex;
       align-items: center;
@@ -120,16 +131,16 @@
     }
 
     nav a {
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-body);
       font-size: 0.7rem;
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.75);
+      color: var(--grey-muted);
       text-decoration: none;
       padding: 0.4rem 1.1rem;
       position: relative;
-      transition: color 0.2s;
+      transition: color 0.25s ease;
     }
 
     nav a::after {
@@ -139,9 +150,9 @@
       left: 50%;
       transform: translateX(-50%) scaleX(0);
       width: 80%;
-      height: 1px;
-      background: var(--white);
-      transition: transform 0.25s ease;
+      height: 1.5px;
+      background: var(--cyan);
+      transition: transform 0.3s ease;
       transform-origin: center;
     }
 
@@ -153,7 +164,7 @@
       transform: translateX(-50%) scaleX(1);
     }
 
-    /* ── HAMBURGER ── */
+
     .hamburger {
       display: none;
       flex-direction: column;
@@ -191,7 +202,7 @@
       transform: translateY(-6.5px) rotate(-45deg);
     }
 
-    /* ── MOBILE NAV DRAWER ── */
+
     .mobile-nav {
       display: none;
       position: fixed;
@@ -216,31 +227,31 @@
     }
 
     .mobile-nav a {
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-body);
       font-size: 1.1rem;
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.7);
+      color: var(--grey-muted);
       text-decoration: none;
       padding: 1.2rem 2rem;
       width: 100%;
       text-align: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      transition: color 0.2s, background 0.2s;
+      border-bottom: 1px solid var(--border-dim);
+      transition: color 0.25s, background 0.25s;
     }
 
     .mobile-nav a:first-child {
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-top: 1px solid var(--border-dim);
     }
 
     .mobile-nav a:hover {
-      color: var(--white);
-      background: rgba(255, 255, 255, 0.04);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.04);
     }
 
 
-    /* ── HERO ── */
+
     .hero {
       min-height: 100vh;
       display: flex;
@@ -272,17 +283,18 @@
 
 
     .hero h1 {
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-display);
       font-size: clamp(3rem, 6.5vw, 5.5rem);
       font-weight: 700;
       line-height: normal;
       max-width: 760px;
       letter-spacing: -2px;
       animation: fadeUp .6s .35s ease both;
+      color: var(--white);
     }
 
     .hero h1 .accent {
-      background: linear-gradient(90deg, var(--blue-light), var(--blue-glow));
+      background: var(--accent-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -293,11 +305,11 @@
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-body);
       font-size: 1.15rem;
-      font-weight: 500;
-      line-height: normal;
-      color: var(--white);
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--grey-light);
       animation: fadeUp .6s .5s ease both;
     }
 
@@ -313,23 +325,25 @@
 
     .btn-primary {
       display: inline-block;
-      background: transparent;
-      color: #FFFFFF;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 500;
+      background: var(--accent-gradient);
+      color: var(--black);
+      font-family: var(--font-display);
+      font-weight: 600;
       font-size: .9rem;
       letter-spacing: .05em;
       padding: .85rem 2.2rem;
-      border: 2px solid #FFFFFF;
+      border: none;
       border-radius: 145px;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.2s, color 0.2s;
+      transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
     }
 
     .btn-primary:hover {
-      background: #FFFFFF;
-      color: #000000;
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.45);
+      filter: brightness(1.1);
     }
 
     .btn-outline {
@@ -337,21 +351,23 @@
       align-items: center;
       gap: .55rem;
       background: transparent;
-      border: 2px solid #FFFFFF;
-      color: #FFFFFF;
-      font-family: 'Roboto', sans-serif;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      color: var(--white);
+      font-family: var(--font-display);
       font-weight: 500;
       font-size: .9rem;
       padding: .85rem 2rem;
       border-radius: 145px;
       cursor: pointer;
       text-decoration: none;
-      transition: background 0.2s, color 0.2s;
+      transition: border-color 0.25s, background 0.25s, color 0.25s, box-shadow 0.25s;
     }
 
     .btn-outline:hover {
-      background: #FFFFFF;
-      color: #000000;
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.06);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.12);
     }
 
     .btn-outline svg {
@@ -371,14 +387,14 @@
       }
     }
 
-    /* ── DIVIDER ── */
+
     .divider {
       width: 100%;
       height: 1px;
       background: linear-gradient(to right, transparent, var(--border), transparent);
     }
 
-    /* ── PUNCHLINE BANNER ── */
+
     .punchline-banner {
       text-align: center;
       padding: 2.5rem 2rem;
@@ -387,26 +403,26 @@
     }
 
     .punchline-banner p {
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-display);
       font-size: clamp(1.2rem, 3vw, 1.8rem);
       font-weight: 500;
       font-style: italic;
-      color: var(--white);
+      color: var(--grey-light);
       letter-spacing: 0.02em;
     }
 
     .punchline-banner span {
-      background: linear-gradient(90deg, #ffffff, var(--blue-light));
+      background: var(--accent-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       font-weight: 700;
     }
 
-    /* ── SERVICES / PLATFORMS ── */
+
     .services {
       padding: 4rem 4.5rem 7rem;
-      background: rgba(7, 10, 15, 0.4);
+      background: rgba(10, 10, 15, 0.6);
     }
 
     .services-header {
@@ -415,7 +431,7 @@
     }
 
     .services-header h2 {
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-display);
       font-size: clamp(2rem, 4vw, 3.2rem);
       font-weight: 700;
       letter-spacing: -1px;
@@ -440,16 +456,17 @@
     }
 
     .service-card {
-      background: var(--dark-navy);
-      border: 1.75px solid var(--border-dim);
-      border-radius: 8px;
+      background: var(--dark-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
       padding: 2.5rem 2rem;
-      transition: all 0.3s ease;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       gap: 1.2rem;
+      backdrop-filter: blur(8px);
     }
 
     .service-card::before {
@@ -458,34 +475,55 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, var(--blue-mid), var(--blue-glow));
+      height: 2px;
+      background: var(--accent-gradient);
       transform: scaleX(0);
       transform-origin: left;
-      transition: transform 0.3s ease;
+      transition: transform 0.4s ease;
+    }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: radial-gradient(ellipse at top left, rgba(0, 240, 255, 0.04), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
     }
 
     .service-card:hover {
-      border-color: var(--border);
-      transform: translateY(-5px);
-
-      background: rgba(15, 30, 58, 0.6);
+      border-color: var(--border-hover);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 240, 255, 0.08);
     }
 
     .service-card:hover::before {
       transform: scaleX(1);
     }
 
+    .service-card:hover::after {
+      opacity: 1;
+    }
+
     .s-icon {
       width: 54px;
       height: 54px;
       border-radius: 12px;
-      background: rgba(37, 99, 235, 0.1);
-      border: 1.75px solid rgba(59, 130, 246, 0.2);
+      background: rgba(0, 240, 255, 0.06);
+      border: 1px solid rgba(0, 240, 255, 0.15);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--blue-glow);
+      color: var(--cyan);
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .service-card:hover .s-icon {
+      background: rgba(0, 240, 255, 0.12);
+      border-color: rgba(0, 240, 255, 0.3);
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.15);
     }
 
     .s-icon svg {
@@ -494,9 +532,9 @@
     }
 
     .service-card h3 {
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-display);
       font-size: 1.3rem;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--white);
       letter-spacing: -0.5px;
     }
@@ -509,10 +547,11 @@
     }
 
     .section-label {
+      font-family: var(--font-body);
       font-size: .73rem;
       letter-spacing: .2em;
       text-transform: uppercase;
-      color: var(--blue-light);
+      color: var(--cyan);
       margin-bottom: 1.2rem;
       display: flex;
       align-items: center;
@@ -523,10 +562,10 @@
       content: '';
       width: 28px;
       height: 1px;
-      background: linear-gradient(to right, var(--blue-mid), var(--blue-light));
+      background: linear-gradient(to right, var(--cyan), var(--electric));
     }
 
-    /* ── ZIGZAG FEATURE SECTIONS ── */
+
     .zigzag-section {
       padding: 6rem 4.5rem;
       max-width: 1400px;
@@ -554,7 +593,7 @@
     }
 
     .zigzag-content h3 {
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-display);
       font-size: clamp(1.6rem, 3vw, 2.4rem);
       font-weight: 700;
       letter-spacing: -0.5px;
@@ -593,21 +632,23 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--blue-light);
+      background: var(--cyan);
       flex-shrink: 0;
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
     }
 
     .zigzag-image {
       position: relative;
       border-radius: 12px;
       overflow: hidden;
-      border: 1.75px solid var(--border-dim);
-      transition: border-color 0.3s, transform 0.3s;
+      border: 1px solid var(--border-dim);
+      transition: border-color 0.35s, transform 0.35s, box-shadow 0.35s;
     }
 
     .zigzag-image:hover {
-      border-color: var(--border);
+      border-color: var(--border-hover);
       transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0, 240, 255, 0.08);
     }
 
     .zigzag-image img {
@@ -621,11 +662,11 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(0, 0, 238, 0.08) 0%, transparent 60%);
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.05) 0%, transparent 60%);
       pointer-events: none;
     }
 
-    /* Centered content block between zigzag rows */
+
     .zigzag-center {
       text-align: center;
       max-width: 720px;
@@ -633,7 +674,7 @@
     }
 
     .zigzag-center h3 {
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-display);
       font-size: clamp(1.6rem, 3vw, 2.4rem);
       font-weight: 700;
       letter-spacing: -0.5px;
@@ -647,14 +688,14 @@
       line-height: 1.7;
     }
 
-    /* ── VIDEO SECTION ── */
+
     .video-section {
       padding: 4rem 4.5rem 7rem;
       text-align: center;
     }
 
     .video-section h2 {
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-display);
       font-size: clamp(1.8rem, 3.5vw, 2.8rem);
       font-weight: 700;
       letter-spacing: -.5px;
@@ -664,7 +705,7 @@
     .video-section>p {
       color: var(--grey-light);
       font-size: .95rem;
-      font-weight: 500;
+      font-weight: 400;
       margin-bottom: 3rem;
     }
 
@@ -675,18 +716,19 @@
       margin: 0 auto;
       padding: 0;
       aspect-ratio: 16/9;
-      border: 1.75px solid var(--border);
-      border-radius: 8px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
       overflow: hidden;
-      background: var(--dark-navy);
+      background: var(--dark-surface);
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.05);
     }
 
 
 
-    /* ── FOOTER ── */
+
     footer {
-      background: var(--dark-navy);
-      border-top: 1.75px solid var(--border);
+      background: var(--dark-bg);
+      border-top: 1px solid var(--border-dim);
       padding: 1.5rem 4.5rem;
     }
 
@@ -707,23 +749,23 @@
       align-items: center;
       gap: 0.4rem;
       padding: 0.35rem 0.9rem;
-      font-family: 'Roboto', sans-serif;
+      font-family: var(--font-body);
       font-size: 0.78rem;
       font-weight: 500;
       letter-spacing: 0.04em;
       color: var(--grey);
       text-decoration: none;
-      border: 1.75px solid var(--border-dim);
+      border: 1px solid var(--border-dim);
       border-radius: 100px;
       background: transparent;
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      transition: color 0.25s, border-color 0.25s, background 0.25s;
       cursor: pointer;
     }
 
     .footer-btn:hover {
-      color: var(--white);
+      color: var(--cyan);
       border-color: var(--border);
-      background: rgba(37, 99, 235, 0.08);
+      background: rgba(0, 240, 255, 0.06);
     }
 
     .footer-btn svg {
@@ -744,9 +786,9 @@
     .social-links a {
       width: 34px;
       height: 34px;
-      background: var(--grey-dark);
-      border: 1.75px solid var(--border-dim);
-      border-radius: 4px;
+      background: var(--dark-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -754,18 +796,17 @@
       text-decoration: none;
       font-size: .75rem;
       font-weight: 500;
-      transition: border-color .2s, color .2s, background .2s;
+      transition: border-color .25s, color .25s, background .25s, box-shadow .25s;
     }
 
     .social-links a:hover {
-      border-color: var(--blue-mid);
-      color: var(--blue-light);
-      background: rgba(37, 99, 235, .12);
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.08);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.1);
     }
 
-    /* ── RESPONSIVE ── */
 
-    /* ── Tablet landscape & small desktop ── */
     @media (max-width: 1024px) {
       header {
         padding: 1rem 2rem;
@@ -802,10 +843,10 @@
       }
     }
 
-    /* ── Tablet portrait ── */
+
     @media (max-width: 768px) {
 
-      /* Prevent glow orbs from causing horizontal scroll */
+
       .glow-orb {
         display: none;
       }
@@ -958,7 +999,7 @@
       }
     }
 
-    /* ── Mobile large ── */
+
     @media (max-width: 480px) {
       header {
         padding: 0.8rem 1rem;
@@ -1127,7 +1168,7 @@
       }
     }
 
-    /* ── Mobile small (iPhone SE, 375px and below) ── */
+
     @media (max-width: 375px) {
       header {
         padding: 0.6rem 0.8rem;
@@ -1185,7 +1226,7 @@
       }
     }
 
-    /* ── SCROLL REVEAL ANIMATIONS ── */
+
     .reveal,
     .reveal-left,
     .reveal-right {
@@ -1481,10 +1522,10 @@
 
 <body>
 
-  <!-- ══════════ BACKGROUND CANVAS ══════════ -->
+
   <canvas id="bg-canvas"></canvas>
 
-  <!-- ══════════ MOBILE NAV DRAWER ══════════ -->
+
   <nav class="mobile-nav" id="mobileNav">
     <a href="#home" onclick="closeMobileNav()">Home</a>
     <a href="http://localhost:5173/layouts" onclick="closeMobileNav()">Layouts</a>
@@ -1493,7 +1534,7 @@
     <a href="http://localhost:5173/" onclick="closeMobileNav()">Get Started</a>
   </nav>
 
-  <!-- ══════════ HEADER ══════════ -->
+
   <header>
     <div class="logo" style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;"
       onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
@@ -1510,9 +1551,10 @@
       <a href="http://localhost:5173/features">Features</a>
       <a href="http://localhost:5173/editor">Demo</a>
       <a href="http://localhost:5173/"
-        style="color:#ffffff; border:1.5px solid rgba(255,255,255,0.35); border-radius:100px; padding:0.35rem 1.1rem; margin-left:0.6rem; transition:background 0.2s,color 0.2s;"
-        onmouseover="this.style.background='#fff';this.style.color='#000';"
-        onmouseout="this.style.background='transparent';this.style.color='#fff';">Get Started</a>
+        style="color:#00F0FF; border:1.5px solid rgba(0,240,255,0.35); border-radius:100px; padding:0.35rem 1.1rem; margin-left:0.6rem; transition:background 0.25s,color 0.25s,box-shadow 0.25s;"
+        onmouseover="this.style.background='rgba(0,240,255,0.1)';this.style.borderColor='rgba(0,240,255,0.6)';this.style.boxShadow='0 0 16px rgba(0,240,255,0.15)';"
+        onmouseout="this.style.background='transparent';this.style.borderColor='rgba(0,240,255,0.35)';this.style.boxShadow='none';">Get
+        Started</a>
     </nav>
 
     <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMobileNav()">
@@ -1523,7 +1565,7 @@
   </header>
 
 
-  <!-- ══════════ HERO ══════════ -->
+
   <section class="hero" id="home">
     <div class="hero-container">
       <div class="hero-content">
@@ -1538,7 +1580,7 @@
         </p>
 
         <div class="hero-actions">
-          <!-- ✦ Configure this button's href or onclick as needed -->
+
           <a href="http://localhost:5173/" class="btn-primary">Get Started</a>
 
           <a href="http://localhost:5173/layouts" class="btn-outline">
@@ -1553,12 +1595,12 @@
     </div>
   </section>
 
-  <!-- ══════════ PUNCHLINE ══════════ -->
+
   <div class="punchline-banner">
     <p>Your perfect view is waiting… <span>book it now!</span></p>
   </div>
 
-  <!-- ══════════ SERVICES / PLATFORMS ══════════ -->
+
   <section class="services" id="services">
     <div class="services-header reveal">
       <div class="section-label" style="justify-content:center;">Layout Categories</div>
@@ -1567,7 +1609,7 @@
     </div>
 
     <div class="services-grid">
-      <!-- Service 1 -->
+
       <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1580,7 +1622,7 @@
         <p>Tiered row layouts with aisle mapping, balcony zones, and premium section designation.</p>
       </div>
 
-      <!-- Service 2 -->
+
       <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1592,7 +1634,7 @@
         <p>Flexible table arrangements with covers per table, waitstaff zones, and outdoor patios.</p>
       </div>
 
-      <!-- Service 3 -->
+
       <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1603,7 +1645,7 @@
         <p>Row-by-row seat allocation with aisle, window preference filters, and real-time booking.</p>
       </div>
 
-      <!-- Service 4 -->
+
       <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1616,7 +1658,7 @@
         <p>Coach and cabin configurations, berth layouts, and multi-class compartment management.</p>
       </div>
 
-      <!-- Service 5 -->
+
       <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1629,7 +1671,7 @@
         <p>Circular and bowl-shaped layouts with section blocks, VIP boxes, and entrance mapping.</p>
       </div>
 
-      <!-- Service 6 -->
+
       <div class="service-card reveal">
         <div class="s-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1646,10 +1688,10 @@
 
   <div class="divider"></div>
 
-  <!-- ══════════ ZIGZAG FEATURE SECTIONS ══════════ -->
+
   <section class="zigzag-section" id="features">
 
-    <!-- Row 1: Content Left, Photo Right -->
+
     <div class="zigzag-row reveal">
       <div class="zigzag-content">
         <div class="section-label">Theatre Layouts</div>
@@ -1670,7 +1712,7 @@
       </div>
     </div>
 
-    <!-- Row 2: Photo Left, Content Right (reversed) -->
+
     <div class="zigzag-row reverse reveal">
       <div class="zigzag-content">
         <div class="section-label">Aviation Seating Layouts</div>
@@ -1691,7 +1733,7 @@
       </div>
     </div>
 
-    <!-- Row 3: Content Left, Photo Right -->
+
     <div class="zigzag-row reveal">
       <div class="zigzag-content">
         <div class="section-label">Stadium & Arena</div>
@@ -1712,7 +1754,7 @@
       </div>
     </div>
 
-    <!-- Row 4: Photo Left, Content Right (reversed) -->
+
     <div class="zigzag-row reverse reveal">
       <div class="zigzag-content">
         <div class="section-label">Bus Builder</div>
@@ -1733,7 +1775,7 @@
       </div>
     </div>
 
-    <!-- Row 5: Content Left, Photo Right -->
+
     <div class="zigzag-row reveal">
       <div class="zigzag-content">
         <div class="section-label">Trains and Metros</div>
@@ -1754,7 +1796,7 @@
       </div>
     </div>
 
-    <!-- Centered Content Block -->
+
     <div class="zigzag-center reveal">
       <div class="section-label" style="justify-content:center;">Why UV Netware</div>
       <h3>One Engine, Every Venue</h3>
@@ -1765,24 +1807,24 @@
       </p>
     </div>
 
-    <!-- Prebuilt Template Showcase Image -->
+
     <div class="zigzag-center reveal" style="margin-top: 2rem;">
       <img src="/assets/images/prebuilt_template.png" alt="Prebuilt template showcase" loading="lazy"
-        style="width: 100%; max-width: 900px; border-radius: 16px; border: 1px solid rgba(99, 102, 241, 0.2); box-shadow: 0 0 40px rgba(99, 102, 241, 0.1); display: block; margin: 0 auto;">
+        style="width: 100%; max-width: 900px; border-radius: 16px; border: 1px solid rgba(0, 240, 255, 0.15); box-shadow: 0 0 40px rgba(0, 240, 255, 0.06); display: block; margin: 0 auto;">
     </div>
 
   </section>
 
   <div class="divider"></div>
 
-  <!-- ══════════ DEMO VIDEO ══════════ -->
+
   <section class="video-section reveal" id="demo">
     <div class="section-label" style="justify-content:center;">See It In Action</div>
     <h2>A 2-Minute Product Overview</h2>
     <p>Generating a seat layout can be as easy as .....</p>
 
     <div class="video-wrapper">
-      <video width="100%" height="100%" style="object-fit:contain; display:block; background:var(--dark-navy);" muted
+      <video width="100%" height="100%" style="object-fit:contain; display:block; background:var(--dark-surface);" muted
         loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
         <source src="/assets/video/Simple_Box_Drop_Video_Generated.mp4" type="video/mp4">
         Your browser does not support the video tag.
@@ -1791,7 +1833,7 @@
   </section>
 
 
-  <!-- ══════════ FOOTER ══════════ -->
+
   <footer>
     <div class="footer-bottom">
       <p>© 2026 UV Netware Inc. All rights reserved.</p>
@@ -1847,7 +1889,7 @@
   </footer>
 
   <script>
-    // ── BACKGROUND PARTICLE ANIMATION ──
+
     (function () {
       const canvas = document.getElementById('bg-canvas');
       const ctx = canvas.getContext('2d');
@@ -1881,11 +1923,11 @@
       function draw() {
         ctx.clearRect(0, 0, W, H);
 
-        // Update & draw particles
+
         for (let i = 0; i < particles.length; i++) {
           const p = particles[i];
 
-          // Soft mouse repulsion
+
           const dx = p.x - mouseX;
           const dy = p.y - mouseY;
           const dist = Math.sqrt(dx * dx + dy * dy);
@@ -1895,26 +1937,26 @@
             p.vy += (dy / dist) * force;
           }
 
-          // Clamp speed
+
           const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
           if (speed > SPEED * 3) { p.vx *= 0.95; p.vy *= 0.95; }
 
           p.x += p.vx;
           p.y += p.vy;
 
-          // Wrap edges
+
           if (p.x < 0) p.x = W;
           if (p.x > W) p.x = 0;
           if (p.y < 0) p.y = H;
           if (p.y > H) p.y = 0;
 
-          // Draw dot
+
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(60, 80, 220, 0.55)';
+          ctx.fillStyle = 'rgba(0, 240, 255, 0.4)';
           ctx.fill();
 
-          // Draw connections
+
           for (let j = i + 1; j < particles.length; j++) {
             const q = particles[j];
             const ex = p.x - q.x;
@@ -1925,7 +1967,7 @@
               ctx.beginPath();
               ctx.moveTo(p.x, p.y);
               ctx.lineTo(q.x, q.y);
-              ctx.strokeStyle = `rgba(50, 70, 210, ${alpha})`;
+              ctx.strokeStyle = `rgba(0, 200, 255, ${alpha})`;
               ctx.lineWidth = 0.7;
               ctx.stroke();
             }
@@ -1943,7 +1985,7 @@
       draw();
     })();
 
-    // ── MOBILE NAV TOGGLE ──
+
     function toggleMobileNav() {
       const nav = document.getElementById('mobileNav');
       const btn = document.getElementById('hamburger');
@@ -1956,7 +1998,7 @@
       document.getElementById('hamburger').classList.remove('open');
     }
 
-    // ── SCROLL REVEAL ──
+
     document.addEventListener('DOMContentLoaded', () => {
       const observerOptions = {
         root: null,
