@@ -64,6 +64,17 @@
       z-index: 1;
     }
 
+    /* ── BACKGROUND CANVAS ── */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
     /* ── HEADER ── */
     header {
       position: fixed;
@@ -101,6 +112,132 @@
       color: var(--white);
     }
 
+    /* ── NAV (SpaceX style) ── */
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    nav a {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      padding: 0.4rem 1.1rem;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 80%;
+      height: 1px;
+      background: var(--white);
+      transition: transform 0.25s ease;
+      transform-origin: center;
+    }
+
+    nav a:hover {
+      color: var(--white);
+    }
+
+    nav a:hover::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      padding: 0;
+      z-index: 200;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--white);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    /* ── MOBILE NAV DRAWER ── */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.97);
+      z-index: 150;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-nav.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .mobile-nav a {
+      font-family: 'Roboto', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      padding: 1.2rem 2rem;
+      width: 100%;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .mobile-nav a:first-child {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .mobile-nav a:hover {
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.04);
+    }
 
 
     /* ── HERO ── */
@@ -109,7 +246,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 11rem 4.5rem 7rem;
+      padding: 3.5rem 2.5rem 2.5rem;
       overflow: hidden;
     }
 
@@ -132,9 +269,6 @@
       position: relative;
       z-index: 2;
     }
-
-
-
 
 
     .hero h1 {
@@ -244,9 +378,34 @@
       background: linear-gradient(to right, transparent, var(--border), transparent);
     }
 
+    /* ── PUNCHLINE BANNER ── */
+    .punchline-banner {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .punchline-banner p {
+      font-family: 'Roboto', sans-serif;
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 500;
+      font-style: italic;
+      color: var(--white);
+      letter-spacing: 0.02em;
+    }
+
+    .punchline-banner span {
+      background: linear-gradient(90deg, #ffffff, var(--blue-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
     /* ── SERVICES / PLATFORMS ── */
     .services {
-      padding: 7rem 4.5rem;
+      padding: 4rem 4.5rem 7rem;
       background: rgba(7, 10, 15, 0.4);
     }
 
@@ -612,6 +771,11 @@
         padding: 1rem 2rem;
       }
 
+      nav a {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.65rem;
+      }
+
       .hero {
         padding: 8rem 2rem 5rem;
       }
@@ -652,6 +816,14 @@
 
       nav {
         display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .mobile-nav {
+        display: flex;
       }
 
       .hero {
@@ -1309,9 +1481,17 @@
 
 <body>
 
+  <!-- ══════════ BACKGROUND CANVAS ══════════ -->
+  <canvas id="bg-canvas"></canvas>
 
-
-
+  <!-- ══════════ MOBILE NAV DRAWER ══════════ -->
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#home" onclick="closeMobileNav()">Home</a>
+    <a href="http://localhost:5173/layouts" onclick="closeMobileNav()">Layouts</a>
+    <a href="http://localhost:5173/features" onclick="closeMobileNav()">Features</a>
+    <a href="http://localhost:5173/editor" onclick="closeMobileNav()">Demo</a>
+    <a href="http://localhost:5173/" onclick="closeMobileNav()">Get Started</a>
+  </nav>
 
   <!-- ══════════ HEADER ══════════ -->
   <header>
@@ -1323,6 +1503,23 @@
         <span style="font-size:1rem; font-weight:500;color:#ffffff;letter-spacing:0.05em;">Netware</span>
       </div>
     </div>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="http://localhost:5173/layouts">Layouts</a>
+      <a href="http://localhost:5173/features">Features</a>
+      <a href="http://localhost:5173/editor">Demo</a>
+      <a href="http://localhost:5173/"
+        style="color:#ffffff; border:1.5px solid rgba(255,255,255,0.35); border-radius:100px; padding:0.35rem 1.1rem; margin-left:0.6rem; transition:background 0.2s,color 0.2s;"
+        onmouseover="this.style.background='#fff';this.style.color='#000';"
+        onmouseout="this.style.background='transparent';this.style.color='#fff';">Get Started</a>
+    </nav>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMobileNav()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </header>
 
 
@@ -1356,8 +1553,10 @@
     </div>
   </section>
 
-  <div class="divider"></div>
-
+  <!-- ══════════ PUNCHLINE ══════════ -->
+  <div class="punchline-banner">
+    <p>Your perfect view is waiting… <span>book it now!</span></p>
+  </div>
 
   <!-- ══════════ SERVICES / PLATFORMS ══════════ -->
   <section class="services" id="services">
@@ -1648,6 +1847,116 @@
   </footer>
 
   <script>
+    // ── BACKGROUND PARTICLE ANIMATION ──
+    (function () {
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles, mouseX = -9999, mouseY = -9999;
+
+      const PARTICLE_COUNT = 90;
+      const CONNECTION_DIST = 140;
+      const MOUSE_REPEL_DIST = 120;
+      const SPEED = 0.35;
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      function createParticle() {
+        return {
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * SPEED,
+          vy: (Math.random() - 0.5) * SPEED,
+          r: Math.random() * 1.5 + 0.5
+        };
+      }
+
+      function init() {
+        resize();
+        particles = Array.from({ length: PARTICLE_COUNT }, createParticle);
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // Update & draw particles
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+
+          // Soft mouse repulsion
+          const dx = p.x - mouseX;
+          const dy = p.y - mouseY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MOUSE_REPEL_DIST && dist > 0) {
+            const force = (MOUSE_REPEL_DIST - dist) / MOUSE_REPEL_DIST * 0.012;
+            p.vx += (dx / dist) * force;
+            p.vy += (dy / dist) * force;
+          }
+
+          // Clamp speed
+          const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+          if (speed > SPEED * 3) { p.vx *= 0.95; p.vy *= 0.95; }
+
+          p.x += p.vx;
+          p.y += p.vy;
+
+          // Wrap edges
+          if (p.x < 0) p.x = W;
+          if (p.x > W) p.x = 0;
+          if (p.y < 0) p.y = H;
+          if (p.y > H) p.y = 0;
+
+          // Draw dot
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(60, 80, 220, 0.55)';
+          ctx.fill();
+
+          // Draw connections
+          for (let j = i + 1; j < particles.length; j++) {
+            const q = particles[j];
+            const ex = p.x - q.x;
+            const ey = p.y - q.y;
+            const d = Math.sqrt(ex * ex + ey * ey);
+            if (d < CONNECTION_DIST) {
+              const alpha = (1 - d / CONNECTION_DIST) * 0.18;
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              ctx.strokeStyle = `rgba(50, 70, 210, ${alpha})`;
+              ctx.lineWidth = 0.7;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', () => { resize(); });
+      window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+      window.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+
+      init();
+      draw();
+    })();
+
+    // ── MOBILE NAV TOGGLE ──
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobileNav');
+      const btn = document.getElementById('hamburger');
+      nav.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+
+    function closeMobileNav() {
+      document.getElementById('mobileNav').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+
+    // ── SCROLL REVEAL ──
     document.addEventListener('DOMContentLoaded', () => {
       const observerOptions = {
         root: null,
@@ -1667,10 +1976,6 @@
       document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
         observer.observe(el);
       });
-
-
-
-
     });
   </script>
 </body>
