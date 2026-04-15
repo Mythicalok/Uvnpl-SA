@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UV Netware</title>
+  <title>SmartSeat — Venue Seating Layout Engine</title>
+  <meta name="description" content="Design, preview and deploy seating layouts for theatres, stadiums, buses, trains and more. SmartSeat by UV Netware — one engine, every venue.">
+  <meta name="keywords" content="seating layout engine, venue seat map, theatre seating, stadium layout, bus seat allocation, UV Netware, SmartSeat">
+  <meta name="author" content="UV Netware">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SmartSeat — Venue Seating Layout Engine">
+  <meta property="og:description" content="Design, preview and deploy seating layouts for theatres, stadiums, buses, trains and more. One engine, every venue.">
+  <meta property="og:url" content="https://uvnetware.com">
+  <meta property="og:image" content="https://uvnetware.com/assets/images/icon.jpg">
+  <meta property="og:site_name" content="UV Netware">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SmartSeat — Venue Seating Layout Engine">
+  <meta name="twitter:description" content="Design and deploy venue seating layouts — theatres, stadiums, buses, trains and more.">
+  <meta name="twitter:image" content="https://uvnetware.com/assets/images/icon.jpg">
+  <link rel="canonical" href="https://uvnetware.com">
   <link rel="icon" href="/assets/images/icon.jpg" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,7 +94,7 @@
       z-index: 1;
     }
 
-    /* ── BACKGROUND CANVAS ── */
+
     #bg-canvas {
       position: fixed;
       top: 0;
@@ -1458,6 +1475,208 @@
         transform: translateX(0);
       }
     }
+
+
+    .theme-toggle {
+      background: transparent;
+      border: 1px solid var(--border-dim);
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--grey-muted);
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover {
+      color: var(--cyan);
+      border-color: var(--border-hover);
+      background: var(--cyan-dim);
+    }
+    .theme-toggle svg { width: 18px; height: 18px; }
+    .theme-toggle .icon-moon { display: block; }
+    .theme-toggle .icon-sun { display: none; }
+    :root[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+    :root[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+
+    :root[data-theme="light"] {
+      --dark-bg: #F4F5F9;
+      --dark-surface: #FFFFFF;
+      --dark-card: #FFFFFF;
+      --cyan: #0088B3;
+      --cyan-dim: rgba(0, 136, 179, 0.1);
+      --electric: #0055CC;
+      --accent-gradient: linear-gradient(135deg, #0088B3 0%, #0055CC 50%, #7B2FFF 100%);
+      --grey-dark: #E5E7EB;
+      --grey: #9CA3AF;
+      --grey-light: #4B5563;
+      --grey-muted: #64748B;
+      --white: #0F172A;
+      --black: #FFFFFF;
+      --border: rgba(0, 102, 204, 0.2);
+      --border-dim: rgba(0, 0, 0, 0.08);
+      --border-hover: rgba(0, 102, 204, 0.4);
+    }
+    :root[data-theme="light"] header { background: rgba(244, 245, 249, 0.92); }
+    :root[data-theme="light"] .mobile-nav { background: rgba(244, 245, 249, 0.98); }
+    :root[data-theme="light"] .services { background: rgba(235, 237, 245, 0.5); }
+    :root[data-theme="light"] .service-card { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    :root[data-theme="light"] footer { background: rgba(235, 237, 245, 0.85); }
+    :root[data-theme="light"] #bg-canvas { opacity: 1; }
+    :root[data-theme="light"] .zigzag-image { box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+    :root[data-theme="light"] .video-wrapper { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    :root[data-theme="light"] .divider { background: linear-gradient(to right, transparent, rgba(0,0,0,0.1), transparent); }
+    :root[data-theme="light"] .credibility-section { background: rgba(235, 237, 245, 0.45); }
+    :root[data-theme="light"] .btn-primary { box-shadow: 0 0 20px rgba(0, 102, 204, 0.2); }
+    :root[data-theme="light"] .btn-primary:hover { box-shadow: 0 0 30px rgba(0, 102, 204, 0.3); }
+
+
+    .cta-section {
+      padding: 5rem 4.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(0, 240, 255, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .cta-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+    .cta-section p {
+      color: var(--grey-light);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+
+    .credibility-section {
+      padding: 4.5rem 4.5rem;
+      text-align: center;
+      background: rgba(10, 10, 15, 0.4);
+    }
+    .credibility-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.6rem;
+      color: var(--white);
+    }
+    .credibility-section > p {
+      color: var(--grey-light);
+      font-size: 0.95rem;
+      margin-bottom: 2.8rem;
+    }
+    .tech-stack {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .tech-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 1.3rem;
+      background: var(--dark-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 100px;
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--white);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .tech-badge:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.08);
+    }
+    .tech-badge svg { width: 20px; height: 20px; color: var(--cyan); }
+    .trust-row {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      color: var(--grey-light);
+    }
+    .trust-item svg { width: 16px; height: 16px; color: var(--cyan); flex-shrink: 0; }
+
+
+    .about-section {
+      padding: 4.5rem 4.5rem;
+      text-align: center;
+    }
+    .about-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .about-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+    .about-section p {
+      color: var(--grey-light);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+
+    @media (max-width: 768px) {
+      .cta-section { padding: 3.5rem 1.5rem; }
+      .credibility-section { padding: 3rem 1.5rem; }
+      .about-section { padding: 3rem 1.5rem; }
+      .trust-row { gap: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .cta-section { padding: 2.5rem 1rem; }
+      .credibility-section { padding: 2.5rem 1rem; }
+      .about-section { padding: 2.5rem 1rem; }
+      .tech-stack { gap: 0.8rem; }
+      .tech-badge { padding: 0.5rem 1rem; font-size: 0.82rem; }
+      .trust-row { flex-direction: column; gap: 0.8rem; align-items: center; }
+    }
   </style>
   <script type="application/ld+json">
 [
@@ -1590,13 +1809,6 @@
     ],
     "provider": {
       "@id": "https://uvnetware.com/#organization"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "4500",
-      "bestRating": "5",
-      "worstRating": "1"
     }
   },
 
@@ -1689,6 +1901,9 @@
   }
 ]
 </script>
+
+
+  <script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 
 <body>
@@ -1712,7 +1927,7 @@
       <img src="/assets/images/icon.jpg" alt="UV Netware Logo" style="height: 30px; width: auto; border-radius: 4px;">
       <div style="display:flex; flex-direction:column; line-height:1;">
         <span style="font-size:1rem; font-weight:700;">UV</span>
-        <span style="font-size:1rem; font-weight:500;color:#ffffff;letter-spacing:0.05em;">Netware</span>
+        <span style="font-size:1rem; font-weight:500;color:var(--white);letter-spacing:0.05em;">Netware</span>
       </div>
     </div>
 
@@ -1722,20 +1937,28 @@
       <a href="http://localhost:5173/features">Features</a>
       <a href="http://localhost:5173/editor">Demo</a>
       <a href="http://localhost:5173/"
-        style="color:#00F0FF; border:1.5px solid rgba(0,240,255,0.35); border-radius:100px; padding:0.35rem 1.1rem; margin-left:0.6rem; transition:background 0.25s,color 0.25s,box-shadow 0.25s;"
+        style="color:var(--cyan); border:1.5px solid rgba(0,240,255,0.35); border-radius:100px; padding:0.35rem 1.1rem; margin-left:0.6rem; transition:background 0.25s,color 0.25s,box-shadow 0.25s;"
         onmouseover="this.style.background='rgba(0,240,255,0.1)';this.style.borderColor='rgba(0,240,255,0.6)';this.style.boxShadow='0 0 16px rgba(0,240,255,0.15)';"
         onmouseout="this.style.background='transparent';this.style.borderColor='rgba(0,240,255,0.35)';this.style.boxShadow='none';">Get
         Started</a>
     </nav>
 
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMobileNav()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+    <div class="header-controls">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMobileNav()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
   </header>
 
 
+
+  <main>
 
   <section class="hero" id="home">
     <div class="hero-container">
@@ -1900,7 +2123,7 @@
         </ul>
       </div>
       <div class="zigzag-image">
-        <img src="/assets/images/zigzag_plane.png" alt="Restaurant floor plan layout software" loading="lazy">
+        <img src="/assets/images/zigzag_plane.png" alt="Aircraft cabin seating layout interface" loading="lazy">
       </div>
     </div>
 
@@ -2003,7 +2226,83 @@
     </div>
   </section>
 
+  <div class="divider"></div>
 
+
+  <section class="about-section" id="about">
+    <div class="about-inner reveal">
+      <div class="section-label" style="justify-content:center;">About The Project</div>
+      <h2>What Is SmartSeat?</h2>
+      <p>
+        Designing seat layouts shouldn't require CAD software. SmartSeat lets you
+        pick a venue type — theatre, stadium, bus, train, anything — drop your seats,
+        configure zones, and preview the result in real time. It works for a 200-seat
+        auditorium just as well as a 60,000-seat arena.
+      </p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+
+  <section class="credibility-section" id="tech">
+    <div class="section-label" style="justify-content:center;">Built With Modern Tech</div>
+    <h2>What Powers SmartSeat</h2>
+    <p>React + TypeScript on the frontend. Supabase for auth, database, and real-time sync. Firebase for hosting.</p>
+    <div class="tech-stack reveal">
+      <div class="tech-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+        React
+      </div>
+      <div class="tech-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+        Firebase
+      </div>
+      <div class="tech-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+        Supabase
+      </div>
+      <div class="tech-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+        TypeScript
+      </div>
+    </div>
+    <div class="trust-row reveal">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Layouts render in under 200ms
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Row-level security via Supabase RLS
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Tested with 100K+ seat maps
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Open beta — free to use
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+
+  <section class="cta-section" id="cta">
+    <div class="cta-inner reveal">
+      <div class="section-label" style="justify-content:center;">Get Started</div>
+      <h2>Ready to Design Your Venue?</h2>
+      <p>
+        Pick a venue, drop your seats, preview the layout. Your first design takes
+        about 5 minutes. No credit card, no setup, no catch.
+      </p>
+      <a href="http://localhost:5173/" class="btn-primary">Start Designing Now</a>
+    </div>
+  </section>
+
+  </main>
 
   <footer>
     <div class="footer-upper">
@@ -2159,9 +2458,11 @@
           if (p.y > H) p.y = 0;
 
 
+          const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(0, 240, 255, 0.4)';
+          ctx.fillStyle = isLight ? 'rgba(79, 70, 229, 0.45)' : 'rgba(0, 240, 255, 0.4)';
           ctx.fill();
 
 
@@ -2171,12 +2472,14 @@
             const ey = p.y - q.y;
             const d = Math.sqrt(ex * ex + ey * ey);
             if (d < CONNECTION_DIST) {
-              const alpha = (1 - d / CONNECTION_DIST) * 0.18;
+              const alpha = (1 - d / CONNECTION_DIST) * (isLight ? 0.22 : 0.18);
               ctx.beginPath();
               ctx.moveTo(p.x, p.y);
               ctx.lineTo(q.x, q.y);
-              ctx.strokeStyle = `rgba(0, 200, 255, ${alpha})`;
-              ctx.lineWidth = 0.7;
+              ctx.strokeStyle = isLight
+                ? `rgba(79, 70, 229, ${alpha})`
+                : `rgba(0, 200, 255, ${alpha})`;
+              ctx.lineWidth = isLight ? 0.9 : 0.7;
               ctx.stroke();
             }
           }
@@ -2227,6 +2530,19 @@
         observer.observe(el);
       });
     });
+
+
+    (function() {
+      var toggle = document.getElementById('themeToggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', function() {
+        var html = document.documentElement;
+        var current = html.getAttribute('data-theme') || 'dark';
+        var next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    })();
   </script>
 </body>
 
