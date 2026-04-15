@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Credits — The Team</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap" rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #000000;
+      --surface: #000021;
+      --card: #000021;
+      --border: #000055;
+      --gold: #0000EE;
+      --gold-light: #0000EE;
+      --text: #FFFFFF;
+      --muted: #757575;
+      --github: #FFFFFF;
+      --linkedin: #FFFFFF;
+      --success: #00BFA5;
+      --error: #D50000;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Gold orb ── */
+    .orb {
+      position: fixed;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.12) 0%, transparent 70%);
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 0;
+      animation: pulse 8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.7;
+        transform: translateX(-50%) scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.08);
+      }
+    }
+
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .hero-label,
+    .card-name {
+      letter-spacing: -0.75px !important;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 100px 24px 60px;
+    }
+
+    .hero-label {
+      display: inline-block;
+      letter-spacing: 0.28em;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1.75px solid rgba(201, 168, 76, 0.3);
+      padding: 6px 18px;
+      border-radius: 40px;
+      margin-bottom: 32px;
+    }
+
+    .hero h1 {
+      font-family: 'Roboto', sans-serif;
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 500;
+      line-height: normal;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff 30%, var(--gold-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: normal;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto 64px;
+      padding: 0 40px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .divider-icon {
+      color: var(--gold);
+      font-size: 18px;
+    }
+
+    /* ── Grid ── */
+    .grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card);
+      border: 1.75px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.35s cubic-bezier(.22, 1, .36, 1), border-color 0.3s, box-shadow 0.35s;
+      cursor: default;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(201, 168, 76, 0.25);
+
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* stagger */
+    .card:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: 0.10s;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: 0.15s;
+    }
+
+    .card:nth-child(4) {
+      animation-delay: 0.20s;
+    }
+
+    .card:nth-child(5) {
+      animation-delay: 0.25s;
+    }
+
+    .card:nth-child(6) {
+      animation-delay: 0.30s;
+    }
+
+    .card:nth-child(7) {
+      animation-delay: 0.35s;
+    }
+
+    .card:nth-child(8) {
+      animation-delay: 0.40s;
+    }
+
+    .card:nth-child(9) {
+      animation-delay: 0.45s;
+    }
+
+    .card:nth-child(10) {
+      animation-delay: 0.50s;
+    }
+
+    .card:nth-child(11) {
+      animation-delay: 0.55s;
+    }
+
+    .card:nth-child(12) {
+      animation-delay: 0.60s;
+    }
+
+    .card:nth-child(13) {
+      animation-delay: 0.65s;
+    }
+
+    .card:nth-child(14) {
+      animation-delay: 0.70s;
+    }
+
+    .card:nth-child(15) {
+      animation-delay: 0.75s;
+    }
+
+    /* Avatar ring */
+    .avatar-wrap {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      margin-bottom: 20px;
+    }
+
+    .avatar-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: conic-gradient(var(--gold), transparent 40%, var(--gold-light), transparent 80%, var(--gold));
+      animation: spin 8s linear infinite;
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+
+    .card:hover .avatar-wrap::before {
+      opacity: 1;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .avatar-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: var(--card);
+      mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+    }
+
+    /* Number badge */
+    .badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      z-index: 2;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #0a0a0f;
+      font-size: 10px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--card);
+    }
+
+    .card-name {
+      font-family: 'Roboto', sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .card-role {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .card-bio {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: normal;
+      margin-bottom: 22px;
+      flex: 1;
+    }
+
+    /* Links */
+    .links {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 16px;
+      border-radius: 145px;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      border: 2px solid #FFFFFF;
+      background: transparent !important;
+      color: #FFFFFF !important;
+    }
+
+    .link-btn:hover {
+      background: #FFFFFF !important;
+      color: #000000 !important;
+      transform: none !important;
+      opacity: 1;
+    }
+
+
+
+
+
+    .link-btn svg {
+      flex-shrink: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 24px 60px;
+      border-top: 1.75px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+
+    footer span {
+      color: var(--gold);
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        padding: 0 16px 60px;
+        gap: 16px;
+      }
+
+      .hero {
+        padding: 70px 20px 40px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="orb"></div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-label"> Project Credits</div>
+    <h1>Meet the<br />Team</h1>
+    <p>The brilliant minds behind this project — designers, developers, and visionaries who made it happen.</p>
+  </section>
+
+  <div class="divider"><span class="divider-icon"></span></div>
+
+  <!-- Cards Grid -->
+  <div class="grid" id="team-grid"></div>
+
+  <!-- Footer -->
+  <footer>
+    Built by <span>UV Netware Solutions</span> &nbsp;·&nbsp; © 2025 All rights reserved
+  </footer>
+
+  <script>
+    const members = [
+      {
+        name: "Alok Pratap Singh",
+        role: "Full Stack Dev",
+        bio: "Orchestrates the team and keeps the vision sharp. Loves clean architecture and strong coffee.",
+        photo: "https://avatars.githubusercontent.com/u/206226670?v=4",
+        github: "https://github.com/Mythicalok",
+        linkedin: "https://linkedin.com/in/alok-singh-786ok"
+      },
+      {
+        name: "Abhiraj Verma",
+        role: "Full Stack Dev",
+        bio: "Pixel-perfect UI engineer obsessed with animations and accessibility-first design.",
+        photo: "https://avatars.githubusercontent.com/u/176029508?v=4",
+        github: " https://github.com/abhi143x",
+        linkedin: "https://www.linkedin.com/in/abhiraj-verma-249765334/"
+      },
+      {
+        name: "Sanni Singh",
+        role: "Backend Dev",
+        bio: "Builds robust APIs and keeps databases happy. Has a soft spot for Rust and distributed systems.",
+        photo: "https://avatars.githubusercontent.com/u/194675289?v=4",
+        github: "https://github.com/13sanni",
+        linkedin: "www.linkedin.com/in/sanni-singh-8a3a92395"
+      },
+      {
+        name: " Talada Sampath Kumar",
+        role: "Full Stack dev",
+        bio: "Turns ideas into stunning interfaces. Figma wizard, typography nerd, and midnight sketcher.",
+        photo: "https://avatars.githubusercontent.com/u/128456806?v=4",
+        github: "https://github.com/sampath-iiits",
+        linkedin: "https://www.linkedin.com/in/talada-sampath-kumar-685187260/"
+      },
+      {
+        name: "Pushkar",
+        role: "Full Stack Dev",
+        bio: "Keeps CI/CD pipelines green and servers breathing. Kubernetes whisperer.",
+        photo: "https://avatars.githubusercontent.com/u/140235997?v=4",
+        github: "https://github.com/pushhhkar",
+        linkedin: "https://linkedin.com/in/"
+      },
+      {
+        name: "Nishu Kumari",
+        role: "Full Stack Dev",
+        bio: "Thrives in both frontend and backend worlds. Goes from React to raw SQL without breaking a sweat.",
+        photo: "https://avatars.githubusercontent.com/u/134098804?v=4",
+        github: "https://github.com/Nishu-06",
+        linkedin: "https://www.linkedin.com/in/nishu-kumari-5b4b61266/"
+      },
+      {
+        name: "Dana Osei",
+        role: "QA Engineer",
+        bio: "Breaks things so users never have to. Passionate about automated testing and thorough edge cases.",
+        photo: "https://i.pravatar.cc/150?img=20",
+        github: "https://github.com/",
+        linkedin: "https://linkedin.com/in/"
+      },
+      {
+        name: "Riley Chen",
+        role: "ML Engineer",
+        bio: "Brings intelligence to the product. Trains models, writes papers, and hikes on weekends.",
+        photo: "https://i.pravatar.cc/150?img=25",
+        github: "https://github.com/",
+        linkedin: "https://linkedin.com/in/"
+      },
+      {
+        name: "Morgan Diaz",
+        role: "Security Engineer",
+        bio: "Thinks like an attacker so the product stays safe. CTF champion and ethical hacker.",
+        photo: "https://i.pravatar.cc/150?img=30",
+        github: "https://github.com/",
+        linkedin: "https://linkedin.com/in/"
+      },
+      {
+        name: "Avery Williams",
+        role: "Product Manager",
+        bio: "Bridges the gap between users and engineers. Roadmap strategist and stakeholder wrangler.",
+        photo: "https://i.pravatar.cc/150?img=35",
+        github: "https://github.com/",
+        linkedin: "https://linkedin.com/in/"
+      },
+      {
+        name: "Quinn Nakamura",
+        role: "Data Engineer",
+        bio: "Builds pipelines that flow like rivers. Transforms raw data into actionable insight.",
+        photo: "https://i.pravatar.cc/150?img=40",
+        github: "https://github.com/",
+        linkedin: "https://linkedin.com/in/"
+      },
+      {
+        name: "Blake Foster",
+        role: "Technical Writer",
+        bio: "Makes complex systems readable by humans. Docs, guides, and the occasional blog post.",
+        photo: "https://i.pravatar.cc/150?img=45",
+        github: "https://github.com/",
+        linkedin: "https://linkedin.com/in/"
+      },
+      {
+        name: "Skylar Huang",
+        role: "Mobile Developer",
+        bio: "Crafts smooth native experiences on iOS and Android. Swift and Kotlin are home.",
+        photo: "https://i.pravatar.cc/150?img=50",
+        github: "https://github.com/",
+        linkedin: "https://linkedin.com/in/"
+      },
+      {
+        name: "Rowan Gupta",
+        role: "Cloud Architect",
+        bio: "Designs scalable cloud infrastructure across AWS and GCP. Serverless evangelist.",
+        photo: "https://i.pravatar.cc/150?img=55",
+        github: "https://github.com/",
+        linkedin: "https://linkedin.com/in/"
+      },
+      {
+        name: "Ember Johansson",
+        role: "Open Source Lead",
+        bio: "Drives community contributions, manages releases, and champions open-source culture.",
+        photo: "https://i.pravatar.cc/150?img=60",
+        github: "https://github.com/",
+        linkedin: "https://linkedin.com/in/"
+      },
+    ];
+
+    const githubIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.004 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+  </svg>`;
+
+    const linkedinIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM3.56 20.45h3.56V9H3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.73V1.73C24 .77 23.21 0 22.23 0z"/>
+  </svg>`;
+
+    const grid = document.getElementById('team-grid');
+
+    members.forEach((m, i) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+      <div class="avatar-wrap">
+        <img class="avatar" src="${m.photo}" alt="${m.name}" loading="lazy"/>
+        <div class="badge">${String(i + 1).padStart(2, '0')}</div>
+      </div>
+      <div class="card-name">${m.name}</div>
+      <div class="card-role">${m.role}</div>
+      <p class="card-bio">${m.bio}</p>
+      <div class="links">
+        <a href="${m.github}" target="_blank" rel="noopener" class="link-btn github">
+          ${githubIcon} GitHub
+        </a>
+        <a href="${m.linkedin}" target="_blank" rel="noopener" class="link-btn linkedin">
+          ${linkedinIcon} LinkedIn
+        </a>
+      </div>
+    `;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+
+</html>

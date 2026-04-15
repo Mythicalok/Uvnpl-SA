@@ -1,0 +1,2549 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartSeat — Venue Seating Layout Engine</title>
+  <meta name="description" content="Design, preview and deploy seating layouts for theatres, stadiums, buses, trains and more. SmartSeat by UV Netware — one engine, every venue.">
+  <meta name="keywords" content="seating layout engine, venue seat map, theatre seating, stadium layout, bus seat allocation, UV Netware, SmartSeat">
+  <meta name="author" content="UV Netware">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SmartSeat — Venue Seating Layout Engine">
+  <meta property="og:description" content="Design, preview and deploy seating layouts for theatres, stadiums, buses, trains and more. One engine, every venue.">
+  <meta property="og:url" content="https://uvnetware.com">
+  <meta property="og:image" content="https://uvnetware.com/assets/images/icon.jpg">
+  <meta property="og:site_name" content="UV Netware">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SmartSeat — Venue Seating Layout Engine">
+  <meta name="twitter:description" content="Design and deploy venue seating layouts — theatres, stadiums, buses, trains and more.">
+  <meta name="twitter:image" content="https://uvnetware.com/assets/images/icon.jpg">
+  <link rel="canonical" href="https://uvnetware.com">
+  <link rel="icon" href="/assets/images/icon.jpg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --black: #000000;
+      --dark-bg: #0A0A0F;
+      --dark-surface: #111118;
+      --dark-card: #15151E;
+      --cyan: #00F0FF;
+      --cyan-dim: rgba(0, 240, 255, 0.15);
+      --electric: #0066FF;
+      --accent-gradient: linear-gradient(135deg, #00F0FF 0%, #0066FF 50%, #7B2FFF 100%);
+      --grey-dark: #1A1A24;
+      --grey: #6B7280;
+      --grey-light: #D1D5DB;
+      --grey-muted: #9CA3AF;
+      --white: #FFFFFF;
+      --border: rgba(0, 240, 255, 0.2);
+      --border-dim: rgba(255, 255, 255, 0.06);
+      --border-hover: rgba(0, 240, 255, 0.45);
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+
+
+
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .logo {
+      font-family: var(--font-display);
+      letter-spacing: -0.75px !important;
+    }
+
+
+
+    section,
+    header,
+    footer {
+      position: relative;
+      z-index: 1;
+    }
+
+
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.3rem 4.5rem;
+      background: rgba(10, 10, 15, 0.85);
+      border-bottom: 1px solid var(--border-dim);
+      backdrop-filter: blur(24px) saturate(1.2);
+      animation: slideDown .6s ease both;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.5rem;
+      letter-spacing: -.3px;
+      color: var(--white);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    nav a {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--grey-muted);
+      text-decoration: none;
+      padding: 0.4rem 1.1rem;
+      position: relative;
+      transition: color 0.25s ease;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 80%;
+      height: 1.5px;
+      background: var(--cyan);
+      transition: transform 0.3s ease;
+      transform-origin: center;
+    }
+
+    nav a:hover {
+      color: var(--white);
+    }
+
+    nav a:hover::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      padding: 0;
+      z-index: 200;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--white);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.97);
+      z-index: 150;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-nav.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .mobile-nav a {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--grey-muted);
+      text-decoration: none;
+      padding: 1.2rem 2rem;
+      width: 100%;
+      text-align: center;
+      border-bottom: 1px solid var(--border-dim);
+      transition: color 0.25s, background 0.25s;
+    }
+
+    .mobile-nav a:first-child {
+      border-top: 1px solid var(--border-dim);
+    }
+
+    .mobile-nav a:hover {
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.04);
+    }
+
+
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3.5rem 2.5rem 2.5rem;
+      overflow: hidden;
+    }
+
+    .hero-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .hero-content {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6.5vw, 5.5rem);
+      font-weight: 700;
+      line-height: normal;
+      max-width: 760px;
+      letter-spacing: -2px;
+      animation: fadeUp .6s .35s ease both;
+      color: var(--white);
+    }
+
+    .hero h1 .accent {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      margin-top: 1.8rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--grey-light);
+      animation: fadeUp .6s .5s ease both;
+    }
+
+    .hero-actions {
+      margin-top: 2.8rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp .6s .65s ease both;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent-gradient);
+      color: var(--black);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .9rem;
+      letter-spacing: .05em;
+      padding: .85rem 2.2rem;
+      border: none;
+      border-radius: 145px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.25s, box-shadow 0.25s, filter 0.25s;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.45);
+      filter: brightness(1.1);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: .9rem;
+      padding: .85rem 2rem;
+      border-radius: 145px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.25s, background 0.25s, color 0.25s, box-shadow 0.25s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.06);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.12);
+    }
+
+    .btn-outline svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    @keyframes fadeUp {
+      from {
+        transform: translateY(24px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+    }
+
+
+    .punchline-banner {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .punchline-banner p {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 500;
+      font-style: italic;
+      color: var(--grey-light);
+      letter-spacing: 0.02em;
+    }
+
+    .punchline-banner span {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+
+    .services {
+      padding: 4rem 4.5rem 7rem;
+      background: rgba(10, 10, 15, 0.6);
+    }
+
+    .services-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .services-header h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+    }
+
+    .services-header p {
+      color: var(--grey-light);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+      font-weight: 500;
+      line-height: normal;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .service-card {
+      background: var(--dark-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent-gradient);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: radial-gradient(ellipse at top left, rgba(0, 240, 255, 0.04), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+    }
+
+    .service-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 240, 255, 0.08);
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-card:hover::after {
+      opacity: 1;
+    }
+
+    .s-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      background: rgba(0, 240, 255, 0.06);
+      border: 1px solid rgba(0, 240, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan);
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .service-card:hover .s-icon {
+      background: rgba(0, 240, 255, 0.12);
+      border-color: rgba(0, 240, 255, 0.3);
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.15);
+    }
+
+    .s-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .service-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .service-card p {
+      color: var(--grey-light);
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: normal;
+    }
+
+    .section-label {
+      font-family: var(--font-body);
+      font-size: .73rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: linear-gradient(to right, var(--cyan), var(--electric));
+    }
+
+
+    .zigzag-section {
+      padding: 6rem 4.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .zigzag-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-bottom: 5rem;
+    }
+
+    .zigzag-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .zigzag-row.reverse .zigzag-content {
+      order: 2;
+    }
+
+    .zigzag-row.reverse .zigzag-image {
+      order: 1;
+    }
+
+    .zigzag-content h3 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+
+    .zigzag-content p {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--grey-light);
+      margin-bottom: 1rem;
+    }
+
+    .zigzag-content .feature-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .zigzag-content .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.92rem;
+      color: var(--grey-light);
+    }
+
+    .zigzag-content .feature-list li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      flex-shrink: 0;
+      box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+    }
+
+    .zigzag-image {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-dim);
+      transition: border-color 0.35s, transform 0.35s, box-shadow 0.35s;
+    }
+
+    .zigzag-image:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0, 240, 255, 0.08);
+    }
+
+    .zigzag-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    .zigzag-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+
+    .zigzag-center {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 5rem;
+    }
+
+    .zigzag-center h3 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .zigzag-center p {
+      font-size: 1rem;
+      color: var(--grey-light);
+      line-height: 1.7;
+    }
+
+
+    .video-section {
+      padding: 4rem 4.5rem 7rem;
+      text-align: center;
+    }
+
+    .video-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -.5px;
+      margin-bottom: .7rem;
+    }
+
+    .video-section>p {
+      color: var(--grey-light);
+      font-size: .95rem;
+      font-weight: 400;
+      margin-bottom: 3rem;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0;
+      aspect-ratio: 16/9;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--dark-surface);
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.05);
+    }
+
+
+
+
+    footer {
+      background: rgba(10, 10, 15, 0.55);
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+      border-top: 1px solid var(--border-dim);
+      padding: 0;
+    }
+
+    .footer-upper {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 4rem 4.5rem 3rem;
+      gap: 3rem;
+      border-bottom: 1px solid var(--border-dim);
+    }
+
+    .footer-columns {
+      display: flex;
+      gap: 5rem;
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 1.4rem;
+      position: relative;
+      padding-bottom: 0.7rem;
+    }
+
+    .footer-col h4::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 24px;
+      height: 2px;
+      background: var(--accent-gradient);
+      border-radius: 2px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .footer-col ul li a {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--grey-muted);
+      text-decoration: none;
+      transition: color 0.25s ease, padding-left 0.25s ease;
+      display: inline-block;
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--cyan);
+      padding-left: 4px;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      flex-shrink: 0;
+      max-width: 220px;
+    }
+
+    .footer-brand .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .footer-brand .footer-logo img {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--border-dim);
+    }
+
+    .footer-brand .footer-logo-text {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .footer-brand-tagline {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--grey);
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    .footer-social-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.4rem;
+    }
+
+    .footer-social-row a {
+      width: 34px;
+      height: 34px;
+      background: var(--dark-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--grey);
+      text-decoration: none;
+      transition: border-color 0.25s, color 0.25s, background 0.25s, box-shadow 0.25s;
+    }
+
+    .footer-social-row a:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0, 240, 255, 0.08);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.1);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.3rem 4.5rem;
+    }
+
+    .footer-bottom p {
+      font-size: 0.78rem;
+      color: var(--grey);
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .footer-bottom-links a {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--grey);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+
+    .footer-bottom-links a:hover {
+      color: var(--cyan);
+    }
+
+    .footer-actions {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .footer-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.9rem;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--grey);
+      text-decoration: none;
+      border: 1px solid var(--border-dim);
+      border-radius: 100px;
+      background: transparent;
+      transition: color 0.25s, border-color 0.25s, background 0.25s;
+      cursor: pointer;
+    }
+
+    .footer-btn:hover {
+      color: var(--cyan);
+      border-color: var(--border);
+      background: rgba(0, 240, 255, 0.06);
+    }
+
+    .footer-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+
+    @media (max-width: 1024px) {
+      header {
+        padding: 1rem 2rem;
+      }
+
+      nav a {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.65rem;
+      }
+
+      .hero {
+        padding: 8rem 2rem 5rem;
+      }
+
+      .services {
+        padding: 6rem 2rem;
+      }
+
+      .video-section {
+        padding: 4rem 2rem 5rem;
+      }
+
+      .zigzag-section {
+        padding: 4rem 2rem;
+      }
+
+      .zigzag-row {
+        gap: 2.5rem;
+        margin-bottom: 4rem;
+      }
+
+      .footer-upper {
+        padding: 3rem 2rem 2.5rem;
+        gap: 2rem;
+      }
+
+      .footer-columns {
+        gap: 3rem;
+      }
+
+      .footer-bottom {
+        padding: 1.2rem 2rem;
+      }
+    }
+
+
+    @media (max-width: 768px) {
+
+
+
+
+      header {
+        padding: 1rem 1.5rem;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .mobile-nav {
+        display: flex;
+      }
+
+      .hero {
+        padding: 7rem 1.5rem 4rem;
+        min-height: auto;
+      }
+
+      .hero-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 3rem;
+      }
+
+      .hero-content {
+        align-items: center;
+        max-width: 100%;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.2rem, 7vw, 4rem);
+      }
+
+      .hero-sub {
+        font-size: 1rem;
+        max-width: 100%;
+      }
+
+      .hero-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+
+      .btn-primary,
+      .btn-outline {
+        padding: 0.75rem 1.8rem;
+        font-size: 0.85rem;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .services {
+        padding: 4rem 1.5rem;
+      }
+
+      .services-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .services-header h2 {
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+      }
+
+      .services-header p {
+        font-size: 0.95rem;
+      }
+
+      .service-card {
+        padding: 1.8rem 1.4rem;
+        gap: 1rem;
+      }
+
+      .service-card h3 {
+        font-size: 1.1rem;
+      }
+
+      .service-card p {
+        font-size: 0.88rem;
+      }
+
+      .zigzag-section {
+        padding: 3rem 1.5rem;
+      }
+
+      .zigzag-row {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .zigzag-row.reverse .zigzag-content {
+        order: 1;
+      }
+
+      .zigzag-row.reverse .zigzag-image {
+        order: 2;
+      }
+
+      .zigzag-center {
+        margin-bottom: 3rem;
+      }
+
+      .zigzag-center h3 {
+        font-size: clamp(1.4rem, 4vw, 2rem);
+      }
+
+      .zigzag-center p {
+        font-size: 0.92rem;
+      }
+
+      .video-section {
+        padding: 3rem 1.5rem 4rem;
+      }
+
+      .video-section h2 {
+        font-size: clamp(1.5rem, 4vw, 2.2rem);
+      }
+
+      .video-wrapper {
+        border-radius: 6px;
+      }
+
+      .footer-upper {
+        flex-direction: column;
+        padding: 2.5rem 1.5rem 2rem;
+        gap: 2.5rem;
+      }
+
+      .footer-columns {
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .footer-brand {
+        align-items: center;
+        max-width: 100%;
+        order: -1;
+      }
+
+      .footer-brand-tagline {
+        text-align: center;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+        padding: 1.2rem 1.5rem;
+      }
+
+      .footer-bottom-links {
+        justify-content: center;
+      }
+
+      .footer-actions {
+        justify-content: center;
+      }
+
+
+    }
+
+
+    @media (max-width: 480px) {
+      header {
+        padding: 0.8rem 1rem;
+      }
+
+      .logo {
+        font-size: 1rem;
+      }
+
+      .hero {
+        padding: 5.5rem 1rem 2.5rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(1.8rem, 8vw, 3rem);
+        letter-spacing: -1px;
+      }
+
+      .hero-sub {
+        font-size: 0.9rem;
+        margin-top: 1.2rem;
+      }
+
+      .hero-actions {
+        margin-top: 2rem;
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .btn-primary,
+      .btn-outline {
+        justify-content: center;
+        text-align: center;
+        padding: 0.8rem 1.5rem;
+        font-size: 0.85rem;
+        width: 100%;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .services-header h2 {
+        font-size: clamp(1.4rem, 5vw, 2rem);
+      }
+
+      .services-header p {
+        font-size: 0.88rem;
+      }
+
+      .services-header {
+        margin-bottom: 2rem;
+      }
+
+      .services {
+        padding: 3rem 1rem;
+      }
+
+      .service-card {
+        padding: 1.5rem 1.2rem;
+        gap: 0.8rem;
+      }
+
+      .s-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+      }
+
+      .s-icon svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .service-card h3 {
+        font-size: 1.1rem;
+      }
+
+      .service-card p {
+        font-size: 0.85rem;
+      }
+
+      .section-label {
+        font-size: 0.65rem;
+      }
+
+      .zigzag-section {
+        padding: 2.5rem 1rem;
+      }
+
+      .zigzag-row {
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .zigzag-content h3 {
+        font-size: clamp(1.2rem, 5vw, 1.6rem);
+      }
+
+      .zigzag-content p {
+        font-size: 0.9rem;
+      }
+
+      .zigzag-content .feature-list li {
+        font-size: 0.85rem;
+      }
+
+      .zigzag-center {
+        margin-bottom: 2rem;
+        padding: 0 0.5rem;
+      }
+
+      .zigzag-center h3 {
+        font-size: clamp(1.2rem, 5vw, 1.6rem);
+      }
+
+      .zigzag-center p {
+        font-size: 0.88rem;
+      }
+
+      .video-section {
+        padding: 2.5rem 1rem 3rem;
+      }
+
+      .video-section h2 {
+        font-size: clamp(1.3rem, 5vw, 1.8rem);
+      }
+
+      .video-section>p {
+        font-size: 0.85rem;
+        margin-bottom: 2rem;
+      }
+
+      .video-wrapper {
+        border-radius: 6px;
+      }
+
+      .footer-upper {
+        padding: 2rem 1rem 1.5rem;
+        gap: 2rem;
+      }
+
+      .footer-columns {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .footer-col h4 {
+        font-size: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .footer-col ul li a {
+        font-size: 0.8rem;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 0.8rem;
+        font-size: 0.75rem;
+        padding: 1rem;
+      }
+
+      .footer-bottom p {
+        font-size: 0.72rem;
+      }
+
+      .footer-bottom-links a {
+        font-size: 0.72rem;
+      }
+
+      .footer-btn {
+        font-size: 0.72rem;
+        padding: 0.3rem 0.7rem;
+      }
+
+      .social-links {
+        gap: 0.6rem;
+      }
+
+      .social-links a {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+
+    @media (max-width: 375px) {
+      header {
+        padding: 0.6rem 0.8rem;
+      }
+
+      .logo {
+        font-size: 0.9rem;
+      }
+
+      .hero {
+        padding: 5rem 0.8rem 2rem;
+      }
+
+      .hero h1 {
+        font-size: clamp(1.6rem, 9vw, 2.4rem);
+      }
+
+      .hero-sub {
+        font-size: 0.85rem;
+        margin-top: 1rem;
+      }
+
+      .hero-actions {
+        margin-top: 1.5rem;
+      }
+
+      .btn-primary,
+      .btn-outline {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.8rem;
+      }
+
+      .services {
+        padding: 2.5rem 0.8rem;
+      }
+
+      .service-card {
+        padding: 1.3rem 1rem;
+      }
+
+      .zigzag-section {
+        padding: 2rem 0.8rem;
+      }
+
+      .zigzag-content h3 {
+        font-size: clamp(1.1rem, 5vw, 1.4rem);
+      }
+
+      .video-section {
+        padding: 2rem 0.8rem 2.5rem;
+      }
+
+      .footer-upper {
+        padding: 1.5rem 0.8rem 1rem;
+      }
+
+      .footer-bottom {
+        padding: 0.8rem;
+      }
+    }
+
+
+    .reveal,
+    .reveal-left,
+    .reveal-right {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      visibility: visible;
+      animation: revealUp 0.8s cubic-bezier(0.5, 0, 0, 1) forwards;
+    }
+
+    .reveal-left.active {
+      opacity: 1;
+      visibility: visible;
+      animation: revealLeft 0.8s cubic-bezier(0.5, 0, 0, 1) forwards;
+    }
+
+    .reveal-right.active {
+      opacity: 1;
+      visibility: visible;
+      animation: revealRight 0.8s cubic-bezier(0.5, 0, 0, 1) forwards;
+    }
+
+    @keyframes revealUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes revealLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes revealRight {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+
+    .theme-toggle {
+      background: transparent;
+      border: 1px solid var(--border-dim);
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--grey-muted);
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover {
+      color: var(--cyan);
+      border-color: var(--border-hover);
+      background: var(--cyan-dim);
+    }
+    .theme-toggle svg { width: 18px; height: 18px; }
+    .theme-toggle .icon-moon { display: block; }
+    .theme-toggle .icon-sun { display: none; }
+    :root[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+    :root[data-theme="light"] .theme-toggle .icon-sun { display: block; }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+
+    :root[data-theme="light"] {
+      --dark-bg: #F4F5F9;
+      --dark-surface: #FFFFFF;
+      --dark-card: #FFFFFF;
+      --cyan: #0088B3;
+      --cyan-dim: rgba(0, 136, 179, 0.1);
+      --electric: #0055CC;
+      --accent-gradient: linear-gradient(135deg, #0088B3 0%, #0055CC 50%, #7B2FFF 100%);
+      --grey-dark: #E5E7EB;
+      --grey: #9CA3AF;
+      --grey-light: #4B5563;
+      --grey-muted: #64748B;
+      --white: #0F172A;
+      --black: #FFFFFF;
+      --border: rgba(0, 102, 204, 0.2);
+      --border-dim: rgba(0, 0, 0, 0.08);
+      --border-hover: rgba(0, 102, 204, 0.4);
+    }
+    :root[data-theme="light"] header { background: rgba(244, 245, 249, 0.92); }
+    :root[data-theme="light"] .mobile-nav { background: rgba(244, 245, 249, 0.98); }
+    :root[data-theme="light"] .services { background: rgba(235, 237, 245, 0.5); }
+    :root[data-theme="light"] .service-card { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    :root[data-theme="light"] footer { background: rgba(235, 237, 245, 0.85); }
+    :root[data-theme="light"] #bg-canvas { opacity: 1; }
+    :root[data-theme="light"] .zigzag-image { box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+    :root[data-theme="light"] .video-wrapper { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    :root[data-theme="light"] .divider { background: linear-gradient(to right, transparent, rgba(0,0,0,0.1), transparent); }
+    :root[data-theme="light"] .credibility-section { background: rgba(235, 237, 245, 0.45); }
+    :root[data-theme="light"] .btn-primary { box-shadow: 0 0 20px rgba(0, 102, 204, 0.2); }
+    :root[data-theme="light"] .btn-primary:hover { box-shadow: 0 0 30px rgba(0, 102, 204, 0.3); }
+
+
+    .cta-section {
+      padding: 5rem 4.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(0, 240, 255, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .cta-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+    .cta-section p {
+      color: var(--grey-light);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 2.2rem;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+
+    .credibility-section {
+      padding: 4.5rem 4.5rem;
+      text-align: center;
+      background: rgba(10, 10, 15, 0.4);
+    }
+    .credibility-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.6rem;
+      color: var(--white);
+    }
+    .credibility-section > p {
+      color: var(--grey-light);
+      font-size: 0.95rem;
+      margin-bottom: 2.8rem;
+    }
+    .tech-stack {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .tech-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 1.3rem;
+      background: var(--dark-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 100px;
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--white);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .tech-badge:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 0 16px rgba(0, 240, 255, 0.08);
+    }
+    .tech-badge svg { width: 20px; height: 20px; color: var(--cyan); }
+    .trust-row {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      color: var(--grey-light);
+    }
+    .trust-item svg { width: 16px; height: 16px; color: var(--cyan); flex-shrink: 0; }
+
+
+    .about-section {
+      padding: 4.5rem 4.5rem;
+      text-align: center;
+    }
+    .about-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .about-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+      color: var(--white);
+    }
+    .about-section p {
+      color: var(--grey-light);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+
+    @media (max-width: 768px) {
+      .cta-section { padding: 3.5rem 1.5rem; }
+      .credibility-section { padding: 3rem 1.5rem; }
+      .about-section { padding: 3rem 1.5rem; }
+      .trust-row { gap: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .cta-section { padding: 2.5rem 1rem; }
+      .credibility-section { padding: 2.5rem 1rem; }
+      .about-section { padding: 2.5rem 1rem; }
+      .tech-stack { gap: 0.8rem; }
+      .tech-badge { padding: 0.5rem 1rem; font-size: 0.82rem; }
+      .trust-row { flex-direction: column; gap: 0.8rem; align-items: center; }
+    }
+  </style>
+  <script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://uvnetware.com/#organization",
+    "name": "UV Netware",
+    "url": "https://uvnetware.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://uvnetware.com/assets/images/icon.jpg",
+      "caption": "UV Netware Logo"
+    },
+    "description": "UV Netware is a global provider of premium IT solutions and services, delivering enterprise-grade technologies to clients across 30+ countries since 2021. Specializing in scalable infrastructure, software engineering, and digital transformation.",
+    "foundingDate": "2021",
+    "email": "contact@uvnetware.com",
+    "telephone": "+91-7046371545",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Rajkot",
+      "addressRegion": "Gujarat",
+      "addressCountry": "IN"
+    },
+    "sameAs": [
+      "https://x.com/uvnetware",
+      "https://www.linkedin.com/company/uvnetware/",
+      "https://www.instagram.com/uvnetware",
+      "https://www.youtube.com/@uvnetware"
+    ],
+    "numberOfEmployees": {
+      "@type": "QuantitativeValue",
+      "minValue": 10
+    },
+    "areaServed": "Worldwide",
+    "knowsAbout": [
+      "IT Solutions",
+      "Seating Layout Engine",
+      "Digital Transformation",
+      "Software Engineering",
+      "Scalable Infrastructure"
+    ]
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://uvnetware.com/#website",
+    "url": "https://uvnetware.com",
+    "name": "UV Netware",
+    "description": "Design Every Seat, for every Venue — A unified layout engine for theatres, restaurants, buses, trains, stadiums, and beyond.",
+    "publisher": {
+      "@id": "https://uvnetware.com/#organization"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://uvnetware.com/?s={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://uvnetware.com/#webpage",
+    "url": "https://uvnetware.com",
+    "name": "UV Netware — Design Every Seat, for Every Venue",
+    "description": "A unified seating layout engine for theatres, restaurants, buses, trains, stadiums, and conferences. Configure, visualize, and deploy seating arrangements at any scale.",
+    "isPartOf": { "@id": "https://uvnetware.com/#website" },
+    "about": { "@id": "https://uvnetware.com/#organization" },
+    "inLanguage": "en",
+    "dateModified": "2026-03-30"
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://uvnetware.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "About",
+        "item": "https://uvnetware.com/#about"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Product",
+        "item": "https://uvnetware.com/#demo"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Contact",
+        "item": "https://uvnetware.com/contact/"
+      }
+    ]
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "UV Netware Seating Layout Engine",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": "https://uvnetware.com",
+    "description": "A unified layout engine to design, configure, visualize, and deploy seating arrangements for theatres, restaurants, buses, trains, stadiums, and conferences at any scale.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Now in Public Beta — Get Started for free"
+    },
+    "featureList": [
+      "Theatre tiered row layouts with aisle mapping and balcony zones",
+      "Restaurant flexible table arrangements with waitstaff zones",
+      "Bus row-by-row seat allocation with window/aisle preference filters",
+      "Train coach and cabin configurations with multi-class compartments",
+      "Stadium circular and bowl-shaped layouts with VIP box management",
+      "Conference boardroom and classroom formats with delegate assignments"
+    ],
+    "provider": {
+      "@id": "https://uvnetware.com/#organization"
+    }
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What venue types does UV Netware support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UV Netware supports Theatre, Restaurant, Bus, Train, Stadium, and Conference venues. From auditoriums to aircraft, UV Netware adapts to any space with precision-engineered seating layouts."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many countries does UV Netware operate in?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UV Netware delivers enterprise-grade technologies to clients across 30+ countries since 2021."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is UV Netware available to try for free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, UV Netware is currently in Public Beta and you can get started for free at uvnetware.com."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I contact UV Netware?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can contact UV Netware via email at contact@uvnetware.com, by phone at +91 7046371545, or through the contact form at uvnetware.com/contact/. They typically respond within one business day."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Where is UV Netware located?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UV Netware is headquartered in Rajkot, Gujarat, India, and serves clients worldwide across 30+ countries."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What makes UV Netware different from other IT companies?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "UV Netware specializes in scalable infrastructure, future-ready software engineering, and full-spectrum digital transformation services. They integrate advanced engineering principles with secure, flexible architectures to ensure long-term scalability, operational continuity, and measurable growth."
+        }
+      }
+    ]
+  },
+
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Design Every Seat, for Every Venue — UV Netware Seating Layout Engine",
+    "description": "UV Netware provides a unified seating layout engine that supports theatres, restaurants, buses, trains, stadiums, and conference halls. Now in public beta.",
+    "url": "https://uvnetware.com",
+    "datePublished": "2021-01-01",
+    "dateModified": "2026-03-30",
+    "inLanguage": "en",
+    "author": {
+      "@id": "https://uvnetware.com/#organization"
+    },
+    "publisher": {
+      "@id": "https://uvnetware.com/#organization"
+    },
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://uvnetware.com/assets/images/icon.jpg"
+    },
+    "mainEntityOfPage": {
+      "@id": "https://uvnetware.com/#webpage"
+    },
+    "keywords": [
+      "seating layout engine",
+      "venue management",
+      "theatre seating",
+      "stadium layout",
+      "restaurant table management",
+      "IT solutions",
+      "UV Netware"
+    ]
+  }
+]
+</script>
+
+
+  <script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+</head>
+
+<body>
+
+
+  <canvas id="bg-canvas"></canvas>
+
+
+  <nav class="mobile-nav" id="mobileNav">
+    <a href="#home" onclick="closeMobileNav()">Home</a>
+    <a href="http://localhost:5173/layouts" onclick="closeMobileNav()">Layouts</a>
+    <a href="http://localhost:5173/features" onclick="closeMobileNav()">Features</a>
+    <a href="http://localhost:5173/editor" onclick="closeMobileNav()">Demo</a>
+    <a href="http://localhost:5173/" onclick="closeMobileNav()">Get Started</a>
+  </nav>
+
+
+  <header>
+    <div class="logo" style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;"
+      onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+      <img src="/assets/images/icon.jpg" alt="UV Netware Logo" style="height: 30px; width: auto; border-radius: 4px;">
+      <div style="display:flex; flex-direction:column; line-height:1;">
+        <span style="font-size:1rem; font-weight:700;">UV</span>
+        <span style="font-size:1rem; font-weight:500;color:var(--white);letter-spacing:0.05em;">Netware</span>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="http://localhost:5173/layouts">Layouts</a>
+      <a href="http://localhost:5173/features">Features</a>
+      <a href="http://localhost:5173/editor">Demo</a>
+      <a href="http://localhost:5173/"
+        style="color:var(--cyan); border:1.5px solid rgba(0,240,255,0.35); border-radius:100px; padding:0.35rem 1.1rem; margin-left:0.6rem; transition:background 0.25s,color 0.25s,box-shadow 0.25s;"
+        onmouseover="this.style.background='rgba(0,240,255,0.1)';this.style.borderColor='rgba(0,240,255,0.6)';this.style.boxShadow='0 0 16px rgba(0,240,255,0.15)';"
+        onmouseout="this.style.background='transparent';this.style.borderColor='rgba(0,240,255,0.35)';this.style.boxShadow='none';">Get
+        Started</a>
+    </nav>
+
+    <div class="header-controls">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMobileNav()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+
+
+  <main>
+
+  <section class="hero" id="home">
+    <div class="hero-container">
+      <div class="hero-content">
+
+        <h1>
+          Smart<span class="accent">Seat</span>
+        </h1>
+
+        <p class="hero-sub">
+          Universal Ticket Booking Web Application for managing and booking seats across venues like cinemas, theaters,
+          and stadiums
+        </p>
+
+        <div class="hero-actions">
+
+          <a href="http://localhost:5173/" class="btn-primary">Get Started</a>
+
+          <a href="http://localhost:5173/layouts" class="btn-outline">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none" />
+            </svg>
+            Explore Layouts
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="punchline-banner">
+    <p>Your perfect view is waiting… <span>book it now!</span></p>
+  </div>
+
+
+  <section class="services" id="services">
+    <div class="services-header reveal">
+      <div class="section-label" style="justify-content:center;">Layout Categories</div>
+      <h2>Every venue type, fully supported</h2>
+      <p>From auditoriums to aircraft, UV Netware adapts to any space with precision-engineered seating layouts.</p>
+    </div>
+
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+        </div>
+        <h3>Theatre</h3>
+        <p>Tiered row layouts with aisle mapping, balcony zones, and premium section designation.</p>
+      </div>
+
+
+      <div class="service-card reveal">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+          </svg>
+        </div>
+        <h3>Restaurant</h3>
+        <p>Flexible table arrangements with covers per table, waitstaff zones, and outdoor patios.</p>
+      </div>
+
+
+      <div class="service-card reveal">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+        </div>
+        <h3>Bus</h3>
+        <p>Row-by-row seat allocation with aisle, window preference filters, and real-time booking.</p>
+      </div>
+
+
+      <div class="service-card reveal">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+        </div>
+        <h3>Train</h3>
+        <p>Coach and cabin configurations, berth layouts, and multi-class compartment management.</p>
+      </div>
+
+
+      <div class="service-card reveal">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+          </svg>
+        </div>
+        <h3>Stadium</h3>
+        <p>Circular and bowl-shaped layouts with section blocks, VIP boxes, and entrance mapping.</p>
+      </div>
+
+
+      <div class="service-card reveal">
+        <div class="s-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+            </polygon>
+          </svg>
+        </div>
+        <h3>Conference</h3>
+        <p>Boardroom and classroom formats with presenter zones, delegate assignments, and AV placement.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+
+  <section class="zigzag-section" id="features">
+
+
+    <div class="zigzag-row reveal">
+      <div class="zigzag-content">
+        <div class="section-label">Theatre Layouts</div>
+        <h3>Precision-Engineered Auditorium Seating</h3>
+        <p>
+          Create tiered row layouts with intelligent aisle mapping and balcony zones.
+          Every seat is accounted for — from front-row VIP to the last row in the upper gallery.
+        </p>
+        <ul class="feature-list">
+          <li>Curved & straight row configurations</li>
+          <li>Balcony & mezzanine zone support</li>
+          <li>Premium section designation</li>
+          <li>ADA-compliant accessibility slots</li>
+        </ul>
+      </div>
+      <div class="zigzag-image">
+        <img src="/assets/images/zigzag_theatre.png" alt="Theatre seating layout engine interface" loading="lazy">
+      </div>
+    </div>
+
+
+    <div class="zigzag-row reverse reveal">
+      <div class="zigzag-content">
+        <div class="section-label">Aviation Seating Layouts</div>
+        <h3>Aircraft Cabin Configurations</h3>
+        <p>
+          Design seating layouts for narrow-body, wide-body, and regional aircraft.
+          From economy rows to premium cabins, every seat finds its perfect place.
+        </p>
+        <ul class="feature-list">
+          <li>Narrow-body, wide-body, and regional aircraft support</li>
+          <li>Economy, premium economy, business, and first-class zones</li>
+          <li>Exit row and bulkhead seat designation</li>
+          <li>Real-time seat availability tracking</li>
+        </ul>
+      </div>
+      <div class="zigzag-image">
+        <img src="/assets/images/zigzag_plane.png" alt="Aircraft cabin seating layout interface" loading="lazy">
+      </div>
+    </div>
+
+
+    <div class="zigzag-row reveal">
+      <div class="zigzag-content">
+        <div class="section-label">Stadium & Arena</div>
+        <h3>Bowl-Shaped Venues at Massive Scale</h3>
+        <p>
+          Map out entire stadiums with section blocks, VIP boxes, and entrance gates.
+          Handle tens of thousands of seats with the same precision as a single row.
+        </p>
+        <ul class="feature-list">
+          <li>Circular & bowl-shaped layouts</li>
+          <li>Section block management</li>
+          <li>VIP & hospitality box placement</li>
+          <li>Entrance & exit gate mapping</li>
+        </ul>
+      </div>
+      <div class="zigzag-image">
+        <img src="/assets/images/zigzag_stadium.png" alt="Stadium seating management interface" loading="lazy">
+      </div>
+    </div>
+
+
+    <div class="zigzag-row reverse reveal">
+      <div class="zigzag-content">
+        <div class="section-label">Bus Builder</div>
+        <h3>From Single-Decker to Double-Decker</h3>
+        <p>
+          Design seating layouts for single-decker, double-decker, and articulated buses.
+          From economy rows to premium cabins, every seat finds its perfect place.
+        </p>
+        <ul class="feature-list">
+          <li>Single-decker, double-decker, and articulated bus support</li>
+          <li>Economy, premium economy, business, and first-class zones</li>
+          <li>Exit row and bulkhead seat designation</li>
+          <li>Real-time capacity tracking</li>
+        </ul>
+      </div>
+      <div class="zigzag-image">
+        <img src="/assets/images/bus_builder.png" alt="Bus seating layout software" loading="lazy">
+      </div>
+    </div>
+
+
+    <div class="zigzag-row reveal">
+      <div class="zigzag-content">
+        <div class="section-label">Trains and Metros</div>
+        <h3>Coach and Cabin Configurations</h3>
+        <p>
+          Design seating layouts for coaches, metro trains, and long-distance rail.
+          From economy rows to premium cabins, every seat finds its perfect place.
+        </p>
+        <ul class="feature-list">
+          <li>Coach, metro, and long-distance rail support</li>
+          <li>Economy, premium economy, business, and first-class zones</li>
+          <li>Exit row and bulkhead seat designation</li>
+          <li>Real-time capacity tracking</li>
+        </ul>
+      </div>
+      <div class="zigzag-image">
+        <img src="/assets/images/train.png" alt="Train and Metro seating layout software" loading="lazy">
+      </div>
+    </div>
+
+
+    <div class="zigzag-center reveal">
+      <div class="section-label" style="justify-content:center;">Why UV Netware</div>
+      <h3>One Engine, Every Venue</h3>
+      <p>
+        Whether it's a 200-seat theatre or a 60,000-capacity stadium, UV Netware's layout engine
+        adapts to your space. Designed by engineers, driven by purpose — we deliver
+        enterprise-grade seating solutions to clients across 30+ countries.
+      </p>
+    </div>
+
+
+    <div class="zigzag-center reveal" style="margin-top: 2rem;">
+      <img src="/assets/images/prebuilt_template.png" alt="Prebuilt template showcase" loading="lazy"
+        style="width: 100%; max-width: 900px; border-radius: 16px; border: 1px solid rgba(0, 240, 255, 0.15); box-shadow: 0 0 40px rgba(0, 240, 255, 0.06); display: block; margin: 0 auto;">
+    </div>
+
+  </section>
+
+  <div class="divider"></div>
+
+
+  <section class="video-section reveal" id="demo">
+    <div class="section-label" style="justify-content:center;">See It In Action</div>
+    <h2>A 2-Minute Product Overview</h2>
+    <p>Generating a seat layout can be as easy as .....</p>
+
+    <div class="video-wrapper">
+      <video width="100%" height="100%" style="object-fit:contain; display:block; background:var(--dark-surface);" muted
+        loop playsinline onmouseover="this.play()" onmouseout="this.pause()">
+        <source src="/assets/video/Simple_Box_Drop_Video_Generated.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+
+  <section class="about-section" id="about">
+    <div class="about-inner reveal">
+      <div class="section-label" style="justify-content:center;">About The Project</div>
+      <h2>What Is SmartSeat?</h2>
+      <p>
+        Designing seat layouts shouldn't require CAD software. SmartSeat lets you
+        pick a venue type — theatre, stadium, bus, train, anything — drop your seats,
+        configure zones, and preview the result in real time. It works for a 200-seat
+        auditorium just as well as a 60,000-seat arena.
+      </p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+
+  <section class="credibility-section" id="tech">
+    <div class="section-label" style="justify-content:center;">Built With Modern Tech</div>
+    <h2>What Powers SmartSeat</h2>
+    <p>React + TypeScript on the frontend. Supabase for auth, database, and real-time sync. Firebase for hosting.</p>
+    <div class="tech-stack reveal">
+      <div class="tech-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+        React
+      </div>
+      <div class="tech-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+        Firebase
+      </div>
+      <div class="tech-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+        Supabase
+      </div>
+      <div class="tech-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+        TypeScript
+      </div>
+    </div>
+    <div class="trust-row reveal">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Layouts render in under 200ms
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Row-level security via Supabase RLS
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Tested with 100K+ seat maps
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Open beta — free to use
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+
+  <section class="cta-section" id="cta">
+    <div class="cta-inner reveal">
+      <div class="section-label" style="justify-content:center;">Get Started</div>
+      <h2>Ready to Design Your Venue?</h2>
+      <p>
+        Pick a venue, drop your seats, preview the layout. Your first design takes
+        about 5 minutes. No credit card, no setup, no catch.
+      </p>
+      <a href="http://localhost:5173/" class="btn-primary">Start Designing Now</a>
+    </div>
+  </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-upper">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="/assets/images/icon.jpg" alt="UV Netware Logo" />
+          <span class="footer-logo-text">UV Netware</span>
+        </div>
+        <p class="footer-brand-tagline">Design Every Seat,<br>for Every Venue.</p>
+        <div class="footer-social-row">
+          <a href="https://x.com/uvnetware" title="X (Twitter)">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/company/uvnetware/" title="LinkedIn">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg>
+          </a>
+          <a href="https://github.com/Mythicalok" title="GitHub">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/uvnetware" title="Instagram">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+            </svg>
+          </a>
+          <a href="https://www.youtube.com/@uvnetware" title="YouTube">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-columns">
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="mailto:contact@uvnetware.com">Contact Us</a></li>
+            <li><a href="#" id="footer-help-center">Help Center</a></li>
+            <li><a href="http://localhost:5173/documentation" id="footer-documentation">Documentation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="http://localhost:5173/features">Features</a></li>
+            <li><a href="http://localhost:5173/editor">Demo</a></li>
+            <li><a href="#" id="footer-pricing">Pricing</a></li>
+            <li><a href="#" id="footer-integrations">SignUp</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="https://uvnetware.com/audience/">Who we Serve</a></li>
+            <li><a href="https://uvnetware.com/careers/" id="footer-careers">Careers</a></li>
+            <li><a href="https://uvnetware.com/articles/" id="footer-blog">Articles</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 UV Netware Inc. All rights reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="https://uvnetware.com/fipolicy/" id="footer-privacy">Privacy Policy</a>
+        <a href="/credit_page/" id="footer-credits-link">Credits</a>
+      </div>
+      <div class="footer-actions">
+        <a href="https://uvnetware.statuspage.io/" class="footer-btn" title="System Status">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+          </svg>
+          Status
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+
+    (function () {
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles, mouseX = -9999, mouseY = -9999;
+
+      const PARTICLE_COUNT = 90;
+      const CONNECTION_DIST = 140;
+      const MOUSE_REPEL_DIST = 120;
+      const SPEED = 0.35;
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      function createParticle() {
+        return {
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * SPEED,
+          vy: (Math.random() - 0.5) * SPEED,
+          r: Math.random() * 1.5 + 0.5
+        };
+      }
+
+      function init() {
+        resize();
+        particles = Array.from({ length: PARTICLE_COUNT }, createParticle);
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+
+
+          const dx = p.x - mouseX;
+          const dy = p.y - mouseY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MOUSE_REPEL_DIST && dist > 0) {
+            const force = (MOUSE_REPEL_DIST - dist) / MOUSE_REPEL_DIST * 0.012;
+            p.vx += (dx / dist) * force;
+            p.vy += (dy / dist) * force;
+          }
+
+
+          const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+          if (speed > SPEED * 3) { p.vx *= 0.95; p.vy *= 0.95; }
+
+          p.x += p.vx;
+          p.y += p.vy;
+
+
+          if (p.x < 0) p.x = W;
+          if (p.x > W) p.x = 0;
+          if (p.y < 0) p.y = H;
+          if (p.y > H) p.y = 0;
+
+
+          const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = isLight ? 'rgba(79, 70, 229, 0.45)' : 'rgba(0, 240, 255, 0.4)';
+          ctx.fill();
+
+
+          for (let j = i + 1; j < particles.length; j++) {
+            const q = particles[j];
+            const ex = p.x - q.x;
+            const ey = p.y - q.y;
+            const d = Math.sqrt(ex * ex + ey * ey);
+            if (d < CONNECTION_DIST) {
+              const alpha = (1 - d / CONNECTION_DIST) * (isLight ? 0.22 : 0.18);
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              ctx.strokeStyle = isLight
+                ? `rgba(79, 70, 229, ${alpha})`
+                : `rgba(0, 200, 255, ${alpha})`;
+              ctx.lineWidth = isLight ? 0.9 : 0.7;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', () => { resize(); });
+      window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+      window.addEventListener('mouseleave', () => { mouseX = -9999; mouseY = -9999; });
+
+      init();
+      draw();
+    })();
+
+
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobileNav');
+      const btn = document.getElementById('hamburger');
+      nav.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+
+    function closeMobileNav() {
+      document.getElementById('mobileNav').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+        observer.observe(el);
+      });
+    });
+
+
+    (function() {
+      var toggle = document.getElementById('themeToggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', function() {
+        var html = document.documentElement;
+        var current = html.getAttribute('data-theme') || 'dark';
+        var next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    })();
+  </script>
+</body>
+
+</html>
